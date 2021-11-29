@@ -15,9 +15,9 @@ import Register from "./pages/register";
 function App() {
   return (
       <ContentWrapper>
+          <ToastContainer/>
           <BrowserRouter>
               <Header/>
-              <ToastContainer/>
               <Switch>
                   <Route exact path="/">
                       <Homepage/>
