@@ -1,0 +1,13 @@
+@import "../../scss/_palette.scss";
+
+.input{
+  color: $textPrimary;
+  border-color: $accentMain;
+}
+
+.wrapper{
+  width: 500px;
+  margin-top: 150px;
+  margin-right: auto;
+  margin-left: auto;
+}

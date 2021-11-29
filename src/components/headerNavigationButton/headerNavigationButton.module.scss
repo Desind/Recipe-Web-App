@@ -1,0 +1,16 @@
+@import "../../scss/_palette.scss";
+
+.link{
+  font-size: 26px;
+  color: $textPrimary;
+  text-decoration: none;
+  margin-right: 12px;
+  padding: 10px 20px;
+}
+
+.active{
+  color: $accentDark;
+  border-width: 0 0 3px 0;
+  border-color: $accentDark;
+  border-style: inset;
+}

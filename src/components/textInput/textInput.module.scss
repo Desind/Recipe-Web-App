@@ -1,0 +1,37 @@
+@import "../../scss/_palette.scss";
+
+.label{
+  padding-right: 10px;
+  font-size: 19px;
+  color: $accentDark;
+  opacity: 1;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  margin-top: 20px;
+}
+
+.inputWrapper{
+  width: 100%;
+  position: relative;
+}
+
+.input{
+  box-sizing: border-box;
+  border: 1px solid $textSecondary;
+  border-radius: 5px;
+  width: 100%;
+  padding: 20px 50px 20px 20px;
+  opacity: 1;
+  height: 50px;
+  font-size: 16px;
+  color: $textPrimary;
+}
+
+.icon {
+  float: right;
+  margin-right: 20px;
+  margin-top: -32px;
+  position: relative;
+  z-index: 2;
+  color: red;
+}

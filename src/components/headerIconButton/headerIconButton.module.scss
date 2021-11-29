@@ -1,0 +1,33 @@
+@import "../../scss/_palette.scss";
+
+.iconButton{
+  background-color: $accentMain;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  & img{
+    height: 30px;
+    user-select: none;
+    pointer-events: none;
+    user-drag: none;
+  }
+  &:hover{
+    background-color: $accentLight;
+    transition: ease 0.5s;
+  }
+}
+.divider{
+  width: 300px;
+}
+.status{
+  padding-left: 15px;
+  margin-bottom: 10px;
+  font-size: 17px;
+  font-weight: bold;
+}
+.userInfo{
+  padding-left: 15px;
+  margin-bottom: 8px;
+}

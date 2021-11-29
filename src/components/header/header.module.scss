@@ -1,0 +1,15 @@
+@import "../../scss/_palette.scss";
+
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-color: $textSecondary;
+  border-style: inset;
+  border-width: 0 0 2px 0;
+}
+
+.menuWrapper{
+  display: flex;
+  flex-direction: row;
+}
