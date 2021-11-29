@@ -4,7 +4,8 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     token: "",
     refreshToken: "",
     username: "",
-    userRole: ""
+    userRole: "",
+    email: ""
 });
 
 export {useGlobalState, setGlobalState}

@@ -5,18 +5,22 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import { useHistory } from "react-router-dom";
+import { useGlobalState } from "../../state"
 
 
 export default function HeaderIconButton(){
     const [anchorEl, setAnchorEl] = React.useState(null);
-
     const open = Boolean(anchorEl);
-
     let history = useHistory();
+
+    const username = useGlobalState('username')[0];
+    const userRole = useGlobalState('userRole')[0];
+    const email = useGlobalState('email')[0];
 
     const handleClose = () => {
         setAnchorEl(null);
     };
+
 
     return (
         <div className={styles.iconButton}>
@@ -34,42 +38,49 @@ export default function HeaderIconButton(){
                 onClose={handleClose}
             >
                 <div>
-                    <div className={styles.status}>Logged in as: </div>
-                    <div className={styles.userInfo}>Desind</div>
-                    <div className={styles.userInfo}>zaran1998@gmail.com</div>
+                    {username !== '' ?
+                        <>
+                            <div className={styles.status}>Logged in as: </div>
+                            <div className={styles.userInfo}>{username}</div>
+                            <div className={styles.userInfo}>{email}</div>
+                            {userRole.includes("ADMIN") && <div className={styles.userInfo}>(Administrator account)</div>}
+                            <Divider />
+                            <MenuItem onClick={() => {
+                                handleClose()
+                            }}>
+                                Profile
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                handleClose()
+                            }}>
+                                Settings
+                            </MenuItem>
+                            <Divider className={styles.divider}/>
+                            <MenuItem onClick={() => {
+                                handleClose()
+                            }}>
+                                Logout
+                            </MenuItem>
+                        </>
+                        :
+                        <>
+                            <div className={styles.status}>Not logged in </div>
+                            <Divider className={styles.divider}/>
+                            <MenuItem onClick={() => {
+                                handleClose();
+                                history.push('/login');
+                            }}>
+                                Login
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                handleClose();
+                                history.push("/register")
+                            }}>
+                                Register
+                            </MenuItem>
+                        </>
+                    }
                 </div>
-                <Divider className={styles.divider}/>
-                <MenuItem onClick={() => {
-                    handleClose();
-                    history.push('/login');
-                }}>
-                    Login
-                </MenuItem>
-                <MenuItem onClick={() => {
-                    handleClose();
-                    history.push("/register")
-                }}>
-                    Register
-                </MenuItem>
-
-                <Divider />
-
-                <MenuItem onClick={() => {
-                    handleClose()
-                }}>
-                    Profile
-                </MenuItem>
-                <MenuItem onClick={() => {
-                    handleClose()
-                }}>
-                    Settings
-                </MenuItem>
-                <Divider className={styles.divider}/>
-                <MenuItem onClick={() => {
-                    handleClose()
-                }}>
-                    Logout
-                </MenuItem>
             </Menu>
         </div>
     );

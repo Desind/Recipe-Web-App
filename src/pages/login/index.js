@@ -5,6 +5,7 @@ import FormButton from "../../components/FormButton";
 import { setGlobalState } from "../../state";
 import {toast} from "react-toastify";
 import { useHistory } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 
 export default function Login(){
@@ -50,9 +51,23 @@ export default function Login(){
             })
             .then(result => {
                 try {
+                    var decoded = jwt_decode(result.access_token);
+                    console.log(decoded);
                     setGlobalState('token', result.access_token);
                     setGlobalState('refreshToken', result.refresh_token);
+                    setGlobalState('username', decoded.username);
+                    setGlobalState('userRole', decoded.roles[0]);
+                    setGlobalState('email', decoded.sub);
                     history.push('');
+                    toast.success("Successfully logged in as " + decoded.username, {
+                        position: "bottom-right",
+                        autoClose: 8000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
                 }catch{}
             })
     }
@@ -60,7 +75,7 @@ export default function Login(){
     return(
         <div className={styles.wrapper}>
             <h1>Log in</h1>
-            <TextInput label={"Login"} type={"text"} valueChange={setLogin}/>
+            <TextInput label={"E-mail"} type={"email"} valueChange={setLogin}/>
             <TextInput label={"Password"} type={"password"} valueChange={setPassword}/>
             <FormButton text={"Log in"} onClick={() => {auth(login, password)}}/>
         </div>
