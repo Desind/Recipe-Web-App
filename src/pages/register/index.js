@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "./register.module.scss"
 import TextInput from "../../components/textInput";
 import FormButton from "../../components/FormButton";
-import { endpoints } from "../../api/endpoints/index.js";
+import { endpoints } from "../../api/endpoints";
 import {toast} from "react-toastify";
 import { useHistory } from "react-router-dom";
 

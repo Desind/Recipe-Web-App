@@ -11,6 +11,7 @@ import ContentWrapper from "./components/contentWrapper";
 import Header from "./components/header";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import NewRecipe from "./pages/newRecipe";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
                   </Route>
                   <Route exact path="/register">
                       <Register/>
+                  </Route>
+                  <Route exact path="/new">
+                      <NewRecipe/>
                   </Route>
               </Switch>
           </BrowserRouter>

@@ -6,7 +6,7 @@ import { setGlobalState } from "../../state";
 import {toast} from "react-toastify";
 import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-
+import { endpoints } from "../../api/endpoints";
 
 export default function Login(){
 
@@ -41,7 +41,7 @@ export default function Login(){
             body: urlencoded
         };
 
-        fetch("http://localhost:8080/login", requestOptions)
+        fetch(endpoints.login, requestOptions)
             .then(response => {
                 if(response.status === 403){
                     makeToast("Invalid login or password.")
