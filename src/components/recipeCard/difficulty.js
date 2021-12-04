@@ -25,7 +25,6 @@ export default function Difficulty(props){
                 setDiffNumber(5);
                 break;
         }
-        console.log(diffNumber);
     },[])
 
     return(

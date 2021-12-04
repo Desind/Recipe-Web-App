@@ -1,6 +1,212 @@
+@import "../../scss/_palette.scss";
+
 .wrapper{
-  & h1{
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  & h1 {
     text-align: center;
     margin-top: 20px;
+  }
+}
+.label{
+  color: #E69F1E;
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 20px;
+  margin-top: 15px;
+}
+.addButton{
+  background-color: $accentLight;
+  color: black;
+  padding: 0 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  &:hover{
+    color: white;
+    cursor: pointer;
+    transition: ease 0.2s;
+  }
+  &Wrapper{
+    display: flex;
+  }
+}
+.accordion{
+  padding: 0 10px 0 0;
+  &Summary{
+    padding: 0;
+    margin-top: 0;
+  }
+  &Wrapper{
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+  &Label{
+    color: #E69F1E;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 20px;
+    display: flex;
+    & p{
+      color: $textPrimary;
+      font-weight: normal;
+      margin-left: 10px;
+    }
+  }
+}
+.slider{
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-color: #232323;
+    border-width: 1px;
+    border-radius: 50%;
+    background: $accentMain;
+    cursor: pointer;
+  }
+  &Wrapper{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+}
+.durationHeader{
+  display: flex;
+  margin-top: 30px;
+  flex-direction: row;
+  & p{
+    font-size: 18px;
+    margin-top: 14px;
+    margin-left: 10px;
+  }
+}
+.imageContainer{
+  background-color: #707070;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 300px;
+  width: 600px;
+  position: relative;
+  &:not(:hover) svg{
+    color: #ffffff00;
+  }
+  &:hover svg{
+    color: black;
+    transition: ease 0.5s;
+  }
+  & :hover{
+    filter: blur(4px);
+  }
+}
+.imageBox{
+  width:600px;
+  height: 300px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.imageIcon{
+  position: absolute;
+  width: fit-content;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: none;
+}
+.buttonWrapper{
+  width: 500px;
+  margin: 80px auto 50px;
+}
+
+.allergy{
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  height: 40px;
+  border: 1px solid $textSecondary;
+  & img{
+    width: 40px;
+    height: 40px;
+    user-select: none;
+    pointer-events: none;
+    user-drag: none;
+  }
+  & p{
+    font-size: 20px;
+    margin-left: 20px;
+    justify-items: center;
+    user-select: none;
+    pointer-events: none;
+    user-drag: none;
+  }
+  &Selected{
+    transition: 0.2s ease;
+    @extend .allergy;
+    outline: 2px solid $textSecondary;
+    background-color: rgba(17, 255, 0, 0.17);
+  }
+}
+.allergyWrapper{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-auto-rows: 60px;
+  grid-gap: 10px;
+  padding-bottom: 5px;
+}
+.cuisineWrapper{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-auto-rows: 40px;
+  grid-gap: 10px;
+  padding-bottom: 5px;
+}
+
+.selectable{
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  padding: 0 20px;
+  border-radius: 10px;
+  height: 40px;
+  border: 1px solid $textSecondary;
+  margin-bottom: 10px;
+  & img{
+    width: 40px;
+    height: 40px;
+    user-select: none;
+    pointer-events: none;
+    user-drag: none;
+  }
+  & p{
+    font-size: 20px;
+    justify-items: center;
+    user-select: none;
+    pointer-events: none;
+    user-drag: none;
+  }
+  &Selected{
+    @extend .selectable;
+    transition: 0.2s ease;
+    outline: 2px solid $textSecondary;
+    background-color: rgba(17, 255, 0, 0.17);
   }
 }
