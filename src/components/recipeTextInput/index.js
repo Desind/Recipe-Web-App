@@ -10,20 +10,49 @@ export default function RecipeTextInput(props){
     return(
         <div className={styles.inputWrapper}>
             {props.type === "line" &&
-                <input className={styles.lineInput} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                (props.array === false ?
+                    (
+                        <input className={styles.lineInput} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                    ):(
+                        <input className={styles.lineInput} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
+                    )
+                )
             }
             {props.type === "multiline" &&
-                <TextareaAutosize className={styles.multilineInput} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                (props.array === false ?
+                        (
+                            <TextareaAutosize className={styles.multilineInput} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                        ):(
+                            <TextareaAutosize className={styles.multilineInput} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
+                        )
+                )
             }
             {props.type === "removableLine" &&
+
                 <div className={styles.removableWrapper}>
-                    <input className={styles.removableLine} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                    {
+                        (props.array === false ?
+                                (
+                                    <input className={styles.lineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                                ):(
+                                    <input className={styles.lineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
+                                )
+                        )
+                    }
                     <CloseIcon fontSize={"large"}  className={styles.closeIcon} onClick={props.onRemoveLine}/>
                 </div>
             }
             {props.type === "removableMultiline" &&
                 <div className={styles.removableWrapper}>
-                    <TextareaAutosize className={styles.multilineInput} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                    {
+                        (props.array === false ?
+                                (
+                                    <TextareaAutosize className={styles.multilineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                                ):(
+                                    <TextareaAutosize className={styles.multilineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
+                                )
+                        )
+                    }
                     <CloseIcon fontSize={"large"}  className={styles.closeIcon} onClick={props.onRemoveLine}/>
                 </div>
             }

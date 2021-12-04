@@ -6,6 +6,7 @@
   margin-right: auto;
   & h1 {
     text-align: center;
+    font-size: 35px;
     margin-top: 20px;
   }
 }
@@ -49,7 +50,7 @@
     color: #E69F1E;
     font-weight: bold;
     font-size: 18px;
-    margin-left: 20px;
+    margin-left: 5px;
     display: flex;
     & p{
       color: $textPrimary;
@@ -93,6 +94,10 @@
     font-size: 18px;
     margin-top: 14px;
     margin-left: 10px;
+    text-transform: lowercase;
+    &:first-letter{
+      text-transform: capitalize;
+    }
   }
 }
 .imageContainer{
@@ -100,7 +105,7 @@
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
-  height: 300px;
+  height: 400px;
   width: 600px;
   position: relative;
   &:not(:hover) svg{
@@ -116,7 +121,7 @@
 }
 .imageBox{
   width:600px;
-  height: 300px;
+  height: 400px;
   object-fit: cover;
   cursor: pointer;
 }
@@ -157,9 +162,12 @@
     user-select: none;
     pointer-events: none;
     user-drag: none;
+    text-transform: lowercase;
+    &:first-letter{
+      text-transform: capitalize;
+    }
   }
   &Selected{
-    transition: 0.2s ease;
     @extend .allergy;
     outline: 2px solid $textSecondary;
     background-color: rgba(17, 255, 0, 0.17);
@@ -202,10 +210,14 @@
     user-select: none;
     pointer-events: none;
     user-drag: none;
+    text-transform: lowercase;
+    &:first-letter{
+      text-transform: capitalize;
+    }
   }
   &Selected{
+    transition: 0.05s ease;
     @extend .selectable;
-    transition: 0.2s ease;
     outline: 2px solid $textSecondary;
     background-color: rgba(17, 255, 0, 0.17);
   }

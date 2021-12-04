@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from "./newRecipe.module.scss"
 import RecipeTextInput from "../../components/recipeTextInput";
 import AddIcon from '@mui/icons-material/Add';
@@ -22,172 +22,396 @@ import Peanuts from "../../assets/allergies/peanuts.svg"
 import Sesame from "../../assets/allergies/sesame.svg"
 import Shellfish from "../../assets/allergies/shellfish.svg"
 import Sulphite from "../../assets/allergies/sulphite.svg"
+import { endpoints } from "../../api/endpoints";
+import _ from 'lodash';
 
 
 export default function NewRecipe(){
 
     const imageRef = useRef(null);
 
-    function uploadImage(file) {
-        return undefined;
+    const [allCategories, setAllCategories] = React.useState([]);
+    const [selectedCategories, setSelectedCategories] = React.useState([]);
+
+    const [allCuisines, setAllCuisines] = React.useState([]);
+    const [selectedCuisines, setSelectedCuisines] = React.useState([]);
+
+    const [selectedAllergies, setSelectedAllergies] = React.useState([]);
+
+    const [title, setTitle] = React.useState("");
+    const [description, setDescription] = React.useState("");
+
+    const [ingredients, setIngredients] = React.useState([""]);
+    const [recipeSteps, setRecipeSteps] = React.useState([""]);
+
+    const [image, setImage] = React.useState(noImage);
+
+    const [duration, setDuration] = React.useState(15);
+
+    const [difficulty, setDifficulty] = React.useState(3);
+
+    function fetchCategories(){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        fetch(endpoints.getCategories, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setAllCategories(_.sortBy(result));
+
+            })
+            .catch(error => console.log('error', error));
+        return [];
     }
+
+    function fetchCuisines(){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        fetch(endpoints.getCuisines, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setAllCuisines(_.sortBy(result));
+            })
+        return [];
+    }
+
+    function allergyClick(allergy){
+        if(!selectedAllergies.includes(allergy)){
+            setSelectedAllergies([...selectedAllergies, allergy]);
+        }else{
+            setSelectedAllergies([...selectedAllergies].filter(function(item) {return item !== allergy}))
+        }
+    }
+
+    function ingredientChange(value, id){
+        let array = [...ingredients];
+        array[id] = value;
+        setIngredients(array);
+    }
+
+    function recipeStepsChange(value, id){
+        let array = [...recipeSteps];
+        array[id] = value;
+        setRecipeSteps(array);
+    }
+
+    function uploadImage(file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            setImage(reader.result);
+        };
+    }
+
+    function parseTime(duration){
+        let h = parseInt(duration/60);
+        let m = duration - h*60;
+        let htext = "";
+        let mtext = "";
+
+        if(h === 5 && m === 15){
+            return "5h+"
+        }
+        if(m !== 0){
+            mtext = m + "min";
+        }
+        if(h !== 0){
+            htext = h + "h";
+        }
+
+        return htext + " " + mtext;
+    }
+
+    function parseDifficulty(dif){
+        switch (dif){
+            case '1': {
+                return "BEGGINER";
+            }
+            case '2': {
+                return "EASY";
+            }
+            case '3': {
+                return "AVERAGE";
+            }
+            case '4': {
+                return "ADVANCED";
+            }
+            case '5': {
+                return "HARD";
+            }
+        }
+    }
+
+    useEffect(() => {
+        fetchCategories();
+        fetchCuisines();
+    },[]);
+
+    useEffect(() => {
+        console.log(difficulty);
+    },[difficulty]);
 
     return(
         <div className={styles.wrapper}>
             <h1>New Recipe</h1>
             <div className={styles.label}>Title</div>
-            <RecipeTextInput type={"line"} valueChange={() => {}}/>
+            <RecipeTextInput type={"line"} valueChange={setTitle}/>
 
             <div className={styles.label}>Description</div>
-            <RecipeTextInput type={"multiline"} valueChange={() => {}}/>
+            <RecipeTextInput type={"multiline"} valueChange={setDescription}/>
 
             <div className={styles.label}>Ingredients</div>
-            <RecipeTextInput type={"line"} valueChange={() => {}}/>
-            <RecipeTextInput type={"removableLine"} valueChange={() => {}}/>
+            {ingredients.map((item,id) => {
+                return(
+                    id === 0 ?
+                        (
+                            <RecipeTextInput
+                                type={"line"}
+                                value={ingredients[id]}
+                                valueChange={ingredientChange}
+                                array={true}
+                                index={id}
+                            />
+                        ):(
+                            <RecipeTextInput
+                                type={"removableLine"}
+                                valueChange={ingredientChange}
+                                value={ingredients[id]}
+                                array={true}
+                                index={id}
+                                onRemoveLine={() => {
+                                    console.log(id);
+                                    let array = [...ingredients];
+                                    array.splice(id,1);
+                                    setIngredients(array);
+                                }}
+                            />
+                        )
+
+                )
+            })}
             <div className={styles.addButtonWrapper}>
-                <AddIcon className={styles.addButton} fontSize={"large"}/>
+                <AddIcon
+                    className={styles.addButton}
+                    fontSize={"large"}
+                    onClick={() => {
+                        setIngredients([...ingredients,""])
+                    }}/>
             </div>
 
             <div className={styles.label}>Recipe steps</div>
-            <RecipeTextInput type={"multiline"} valueChange={() => {}}/>
-            <RecipeTextInput type={"removableMultiline"} valueChange={() => {}}/>
+            {recipeSteps.map((item,id) => {
+                return(
+                    id === 0 ?
+                        (
+                            <RecipeTextInput
+                                type={"multiline"}
+                                value={recipeSteps[id]}
+                                valueChange={recipeStepsChange}
+                                array={true}
+                                index={id}
+                            />
+                        ):(
+                            <RecipeTextInput
+                                type={"removableMultiline"}
+                                valueChange={recipeStepsChange}
+                                value={recipeSteps[id]}
+                                array={true}
+                                index={id}
+                                onRemoveLine={() => {
+                                    console.log(id);
+                                    let array = [...recipeSteps];
+                                    array.splice(id,1);
+                                    setRecipeSteps(array);
+                                }}
+                            />
+                        )
+
+                )
+            })}
             <div className={styles.addButtonWrapper}>
-                <AddIcon className={styles.addButton} fontSize={"large"}/>
+                <AddIcon
+                    className={styles.addButton}
+                    fontSize={"large"}
+                    onClick={() => {
+                        setRecipeSteps([...recipeSteps,""])
+                    }}/>
+                />
             </div>
 
+            {/*Allergens*/}
             <div className={styles.accordionWrapper}>
                 <Accordion className={styles.accordion}>
                     <AccordionSummary
                         className={styles.accordionSummary}
                         expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
                     >
-                        <div className={styles.accordionLabel}>Allergens <p>(1)</p></div>
+                        <div className={styles.accordionLabel}>Allergens {selectedAllergies.length>0 && <p>({selectedAllergies.length})</p>}</div>
                     </AccordionSummary>
                     <AccordionDetails>
                         <div className={styles.allergyWrapper}>
-                            <div className={styles.allergySelected}>
-                                <img src={Celery} alt={"celery"}/>
-                                <p>Celery</p>
+                            <div
+                                className={!selectedAllergies.includes("CELERY") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("CELERY")}}
+                            >
+                                <img src={Celery} alt={""}/>
+                                <p>CELERY</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("EGGS") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("EGGS")}}
+                            >
                                 <img src={Eggs} alt={""}/>
-                                <p>Eggs</p>
+                                <p>EGGS</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("FISH") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("FISH")}}
+                            >
                                 <img src={Fish} alt={""}/>
-                                <p>Fish</p>
+                                <p>FISH</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("GLUTEN") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("GLUTEN")}}
+                            >
                                 <img src={Gluten} alt={""}/>
-                                <p>Gluten</p>
+                                <p>GLUTEN</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("LUPINE") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("LUPINE")}}
+                            >
                                 <img src={Lupine} alt={""}/>
-                                <p>Lupine</p>
+                                <p>LUPINE</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("MILK") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("MILK")}}
+                            >
                                 <img src={Milk} alt={""}/>
-                                <p>Milk</p>
+                                <p>MILK</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("MOLLUSCS") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("MOLLUSCS")}}
+                            >
                                 <img src={Molluscs} alt={""}/>
-                                <p>Molluscs</p>
+                                <p>MOLLUSCS</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("MUSTARD") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("MUSTARD")}}
+                            >
                                 <img src={Mustard} alt={""}/>
-                                <p>Mustard</p>
+                                <p>MUSTARD</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("NUTS") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("NUTS")}}
+                            >
                                 <img src={Nuts} alt={""}/>
-                                <p>Nuts</p>
+                                <p>NUTS</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("PEANUTS") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("PEANUTS")}}
+                            >
                                 <img src={Peanuts} alt={""}/>
-                                <p>Peanuts</p>
+                                <p>PEANUTS</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("SESAME") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("SESAME")}}
+                            >
                                 <img src={Sesame} alt={""}/>
-                                <p>Sesame</p>
+                                <p>SESAME</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("SHELLFISH") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("SHELLFISH")}}
+                            >
                                 <img src={Shellfish} alt={""}/>
-                                <p>Shellfish</p>
+                                <p>SHELLFISH</p>
                             </div>
-                            <div className={styles.allergy}>
+                            <div
+                                className={!selectedAllergies.includes("SULPHITE") ? styles.allergy : styles.allergySelected}
+                                onClick={() => {allergyClick("SULPHITE")}}
+                            >
                                 <img src={Sulphite} alt={""}/>
-                                <p>Sulphite</p>
+                                <p>SULPHITE</p>
                             </div>
                         </div>
                     </AccordionDetails>
                 </Accordion>
             </div>
 
+            {/*Categories*/}
             <div className={styles.accordionWrapper}>
                 <Accordion className={styles.accordion}>
                     <AccordionSummary
                         className={styles.accordionSummary}
                         expandIcon={<ExpandMoreIcon />}
                     >
-                        <div className={styles.accordionLabel}>Categories</div>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectableSelected}>
-                                <p>Celery</p>
-                            </div>
+                        <div className={styles.accordionLabel}>
+                            Categories {selectedCategories.length>0 && <p>({selectedCategories.length})</p>}
+                            <p style={{fontWeight: "bold"}}>{selectedCategories.length > 2 && "MAX"}</p>
                         </div>
-                    </AccordionDetails>
-                </Accordion>
-            </div>
-
-            <div className={styles.accordionWrapper}>
-                <Accordion className={styles.accordion}>
-                    <AccordionSummary
-                        className={styles.accordionSummary}
-                        expandIcon={<ExpandMoreIcon />}
-                    >
-                        <div className={styles.accordionLabel}>Cuisine</div>
                     </AccordionSummary>
                     <AccordionDetails>
                         <div className={styles.cuisineWrapper}>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectableSelected}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
-                            <div className={styles.selectable}>
-                                <p>Celery</p>
-                            </div>
+                            {allCategories.map((element) => {
+                                return(
+                                    <div
+                                        className={!selectedCategories.includes(element) ? styles.selectable : styles.selectableSelected}
+                                        onClick={() => {
+                                            if(!selectedCategories.includes(element) && selectedCategories.length<3){
+                                                setSelectedCategories([...selectedCategories, element]);
+                                            }else{
+                                                setSelectedCategories([...selectedCategories].filter(function(item) {return item !== element}))
+                                            }
+                                        }}
+                                    >
+                                        <p>{element}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </AccordionDetails>
+                </Accordion>
+            </div>
+
+            {/*Cuisine*/}
+            <div className={styles.accordionWrapper}>
+                <Accordion className={styles.accordion}>
+                    <AccordionSummary
+                        className={styles.accordionSummary}
+                        expandIcon={<ExpandMoreIcon />}
+                    >
+                        <div className={styles.accordionLabel}>Cuisine {<p>{selectedCuisines[0]}</p>}</div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <div className={styles.cuisineWrapper}>
+                            {allCuisines.map((element) => {
+                                return(
+                                    <div
+                                        className={!selectedCuisines.includes(element) ? styles.selectable : styles.selectableSelected}
+                                        onClick={() => {
+                                            if(selectedCuisines.includes(element)){
+                                                setSelectedCuisines([]);
+                                            }else{
+                                                setSelectedCuisines([...selectedCuisines].filter(function(item) {return item !== element}));
+                                                setSelectedCuisines([element]);
+                                            }
+                                        }}
+                                    >
+                                        <p>{element}</p>
+                                    </div>
+                                )
+                            })}
                         </div>
                     </AccordionDetails>
                 </Accordion>
@@ -202,7 +426,7 @@ export default function NewRecipe(){
                         imageRef.current.click();
                     }}
                     className={styles.imageBox}
-                    src={noImage}
+                    src={image}
                     alt={""}/>
                 <input
                     style={{ display: "none" }}
@@ -220,18 +444,37 @@ export default function NewRecipe(){
 
             <div className={styles.durationHeader}>
                 <div className={styles.label}>Duration</div>
-                <p>(15 min)</p>
+                <p>{parseTime(duration)}</p>
             </div>
             <div className={styles.sliderWrapper}>
-                <input className={styles.slider} type="range" min="15" max="240" step="15"/>
+                <input
+                    className={styles.slider}
+                    type="range"
+                    min="15"
+                    max="315"
+                    value={duration}
+                    step="15"
+                    onChange={(e) => {
+                        setDuration(parseInt(e.target.value));
+                    }}
+                />
             </div>
 
             <div className={styles.durationHeader}>
                 <div className={styles.label}>Difficulty</div>
-                <p>(Easy)</p>
+                <p>{parseDifficulty(difficulty)}</p>
             </div>
             <div className={styles.sliderWrapper}>
-                <input className={styles.slider} type="range" min="1" max="5"/>
+                <input
+                    value={difficulty}
+                    className={styles.slider}
+                    type="range"
+                    min="1"
+                    max="5"
+                    onChange={(event => {
+                        setDifficulty(event.target.value);
+                    })}
+                />
             </div>
 
             <div className={styles.buttonWrapper}>
