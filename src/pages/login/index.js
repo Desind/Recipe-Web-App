@@ -10,8 +10,8 @@ import { endpoints } from "../../api/endpoints";
 
 export default function Login(){
 
-    let [login, setLogin] = React.useState("");
-    let [password, setPassword] = React.useState("");
+    let [login, setLogin] = React.useState("zaran1998@gmail.com");
+    let [password, setPassword] = React.useState("testpass");
 
     let history = useHistory();
 
@@ -52,7 +52,6 @@ export default function Login(){
             .then(result => {
                 try {
                     var decoded = jwt_decode(result.access_token);
-                    console.log(decoded);
                     setGlobalState('token', result.access_token);
                     setGlobalState('refreshToken', result.refresh_token);
                     setGlobalState('username', decoded.username);

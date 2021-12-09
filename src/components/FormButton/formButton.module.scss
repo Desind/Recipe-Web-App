@@ -15,4 +15,12 @@
     background-color: $accentLight;
     transition: ease 0.2s;
   }
+  &Disabled{
+    @extend .button;
+    background-color: lighten($accentMain,20%);
+    &:hover{
+      cursor: default;
+      background-color: lighten($accentMain,20%);
+    }
+  }
 }

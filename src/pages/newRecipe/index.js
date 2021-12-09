@@ -24,6 +24,9 @@ import Shellfish from "../../assets/allergies/shellfish.svg"
 import Sulphite from "../../assets/allergies/sulphite.svg"
 import { endpoints } from "../../api/endpoints";
 import _ from 'lodash';
+import { useGlobalState } from "../../state"
+import { useHistory } from "react-router-dom";
+import {toast} from "react-toastify";
 
 
 export default function NewRecipe(){
@@ -44,12 +47,19 @@ export default function NewRecipe(){
     const [ingredients, setIngredients] = React.useState([""]);
     const [recipeSteps, setRecipeSteps] = React.useState([""]);
 
-    const [image, setImage] = React.useState(noImage);
+    const [image, setImage] = React.useState(null);
 
     const [duration, setDuration] = React.useState(15);
 
-    const [difficulty, setDifficulty] = React.useState(3);
+    const [difficulty, setDifficulty] = React.useState("3");
 
+    const [sendDisabled, setSendDisabled] = React.useState(false);
+
+    const token = useGlobalState('token')[0];
+
+    const history = useHistory();
+
+    /* eslint-disable */
     function fetchCategories(){
         var requestOptions = {
             method: 'GET',
@@ -101,9 +111,13 @@ export default function NewRecipe(){
     function uploadImage(file) {
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = function () {
-            setImage(reader.result);
-        };
+        try{
+            reader.onload = function () {
+                setImage(reader.result);
+            };
+        }catch (e){
+
+        }
     }
 
     function parseTime(duration){
@@ -142,17 +156,83 @@ export default function NewRecipe(){
             case '5': {
                 return "HARD";
             }
+            default:{
+                return "AVERAGE";
+            }
         }
     }
 
+    function uploadRecipe(){
+        setSendDisabled(true);
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        myHeaders.append("Content-Type", "application/json");
+
+        let img = null;
+        try {
+            img = [image.toString()]
+        }catch (e){
+
+        }
+        var raw = JSON.stringify({
+            "title": title,
+            "description": description,
+            "ingredients": ingredients,
+            "steps": recipeSteps,
+            "allergens": selectedAllergies,
+            "categories": selectedCategories,
+            "cuisines": selectedCuisines,
+            "duration": duration,
+            "images": img,
+            "difficulty": difficulty
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(endpoints.newRecipe, requestOptions)
+            .then(response => {
+                if(response.status === 201){
+                    return response.json();
+                }else{
+                    toast.error('Could not publish new recipe. Try again later.', {
+                        position: "bottom-right",
+                        autoClose: 8000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    return null;
+                }
+            }).then(json => {
+                if(json !== null){
+                    toast.success('Recipe published successfully.', {
+                        position: "bottom-right",
+                        autoClose: 8000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    history.push('/recipe/'+json.id);
+                }
+            })
+
+    }
+
     useEffect(() => {
+        if (token === ''){
+            history.replace('/');
+        }
         fetchCategories();
         fetchCuisines();
     },[]);
-
-    useEffect(() => {
-        console.log(difficulty);
-    },[difficulty]);
 
     return(
         <div className={styles.wrapper}>
@@ -426,7 +506,7 @@ export default function NewRecipe(){
                         imageRef.current.click();
                     }}
                     className={styles.imageBox}
-                    src={image}
+                    src={image !== null ? image : noImage}
                     alt={""}/>
                 <input
                     style={{ display: "none" }}
@@ -478,7 +558,7 @@ export default function NewRecipe(){
             </div>
 
             <div className={styles.buttonWrapper}>
-                <FormButton text={"Publish recipe"} onClick={() => {}}/>
+                <FormButton disabled={sendDisabled} text={"Publish recipe"} onClick={uploadRecipe}/>
             </div>
         </div>
     )

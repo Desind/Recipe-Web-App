@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export default function FormButton(props){
     return(
-        <button className={styles.button} onClick={props.onClick}>
+        <button disabled={props.disabled} className={!props.disabled ? styles.button : styles.buttonDisabled} onClick={props.onClick}>
             {props.text}
         </button>
     )

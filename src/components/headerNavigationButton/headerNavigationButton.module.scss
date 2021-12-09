@@ -9,6 +9,7 @@
 }
 
 .active{
+  @extend .link;
   color: $accentDark;
   border-width: 0 0 3px 0;
   border-color: $accentDark;

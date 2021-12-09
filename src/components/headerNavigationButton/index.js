@@ -1,13 +1,17 @@
 import React from 'react';
 import styles from './headerNavigationButton.module.scss';
-import {NavLink} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom'
 
 
 export default function HeaderNavigationButton(props){
-
+    let history = useHistory();
+    const location = useLocation();
     return(
-        <NavLink className={styles.link} exact title={props.label} to={props.link} activeClassName={styles.active}>{props.label}</NavLink>
+        <div className={location.pathname !== props.link ? styles.link : styles.active} onClick={() => {
+            history.push(props.link);
+        }}>{props.label}</div>
     )
 }
 

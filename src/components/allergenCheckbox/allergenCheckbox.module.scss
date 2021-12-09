@@ -1,0 +1,43 @@
+.wrapper{
+  display: flex;
+  border: 1px black solid;
+  border-radius: 5px;
+  align-items: center;
+  user-select: none;
+  padding: 10px 3px 10px 5px;
+  user-drag: none;
+  cursor: pointer;
+  &:last-child{
+    margin-bottom: -10px;
+  }
+  &Disabled{
+    @extend .wrapper;
+    background-color: #ffeeb8;
+  }
+  img{
+    height: 25px;
+    width: 25px;
+    padding-left: 5px;
+    position: absolute;
+    top: -12px;
+    &.disabled{
+      top: -17px;
+      color: red;
+      padding-left: 0;
+      height: 35px;
+      width: 35px;
+      filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(5);
+    }
+  }
+  p{
+    font-size: 18px;
+    text-transform: lowercase;
+    margin-left: 45px;
+    &:first-letter{
+      text-transform: capitalize;
+    }
+  }
+}
+.imageWrapper{
+  position:relative;
+}
