@@ -12,6 +12,7 @@ import Header from "./components/header";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import NewRecipe from "./pages/newRecipe";
+import RecipeDetails from "./pages/recipeDetails";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
                   </Route>
                   <Route exact path="/register">
                       <Register/>
+                  </Route>
+                  <Route exact path="/recipe/:id">
+                      <RecipeDetails/>
                   </Route>
                   <Route exact path="/new">
                       <NewRecipe/>

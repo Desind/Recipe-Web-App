@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import styles from './recipeCard.module.scss';
+import styles from './difficulty.module.scss';
 import cleaver from '../../assets/cleaver.svg'
 
 export default function Difficulty(props){

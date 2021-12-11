@@ -21,8 +21,11 @@
   .searchTitle{
     font-size: 24px;
     text-align: center;
+    font-weight: normal;
     margin-bottom: 10px;
     color: $accentMain;
+    user-select: none;
+    -webkit-user-drag: none;
   }
   .accordion{
     margin: 0 0 1px 0 !important;

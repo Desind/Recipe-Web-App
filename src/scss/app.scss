@@ -5,6 +5,7 @@ body *{
 }
 body{
   background-color: $background;
+  overflow-y: overlay;
 }
 
 h1{

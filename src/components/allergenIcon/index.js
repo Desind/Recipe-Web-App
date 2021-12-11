@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "./allergenCheckbox.module.scss"
+import styles from "./allergenIcon.module.scss"
 import PropTypes from "prop-types";
 import CELERY from "../../assets/allergies/celery.svg"
 import EGGS from "../../assets/allergies/eggs.svg"
@@ -14,15 +14,14 @@ import PEANUTS from "../../assets/allergies/peanuts.svg"
 import SESAME from "../../assets/allergies/sesame.svg"
 import SHELLFISH from "../../assets/allergies/shellfish.svg"
 import SULPHITE from "../../assets/allergies/sulphite.svg"
-import Disabled from "../../assets/disabled.svg"
+import Tooltip from "@material-ui/core/Tooltip";
 
-
-export default function AllergenCheckbox(props){
+export default function AllergenIcon(props){
 
     return(
-        <div className={props.disabled ? styles.wrapperDisabled : styles.wrapper} onClick={props.onClick}>
+        <Tooltip arrow title={<p className={styles.tooltip}>{props.allergen}</p>}>
             <div className={styles.imageWrapper}>
-                <img src={(props.allergen === "CELERY" && CELERY)
+                <img className={styles.icon} src={(props.allergen === "CELERY" && CELERY)
                 || (props.allergen === "EGGS" && EGGS)
                 || (props.allergen === "FISH" && FISH)
                 || (props.allergen === "GLUTEN" && GLUTEN)
@@ -36,13 +35,10 @@ export default function AllergenCheckbox(props){
                 || (props.allergen === "SHELLFISH" && SHELLFISH)
                 || (props.allergen === "SULPHITE" && SULPHITE)
                 } alt={""}/>
-                {props.disabled && <img className={styles.disabled} src={Disabled} alt={""}/>}
             </div>
-            <p>{props.allergen}</p>
-        </div>
+        </Tooltip>
     )
 }
-AllergenCheckbox.propTypes = {
+AllergenIcon.propTypes = {
     allergen: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
 }

@@ -7,7 +7,9 @@ export const endpoints = {
     getCuisines: base + '/api/recipe/cuisines',
     getAllergens: base + '/api/allergens',
     newRecipe: base + '/api/recipe',
-    allRecipes: base + '/recipes/'
+    allRecipes: base + '/recipes/',
+    getUsername: base + '/api/username/',
+    getRecipe: base + '/api/recipe/'
 }
 
 

@@ -51,7 +51,7 @@ export default function NewRecipe(){
 
     const [duration, setDuration] = React.useState(15);
 
-    const [difficulty, setDifficulty] = React.useState("3");
+    const [difficulty, setDifficulty] = React.useState('3');
 
     const [sendDisabled, setSendDisabled] = React.useState(false);
 
@@ -156,9 +156,6 @@ export default function NewRecipe(){
             case '5': {
                 return "HARD";
             }
-            default:{
-                return "AVERAGE";
-            }
         }
     }
 
@@ -185,7 +182,7 @@ export default function NewRecipe(){
             "cuisines": selectedCuisines,
             "duration": duration,
             "images": img,
-            "difficulty": difficulty
+            "difficulty": parseDifficulty(difficulty)
         });
 
         var requestOptions = {
@@ -223,7 +220,6 @@ export default function NewRecipe(){
                     history.push('/recipe/'+json.id);
                 }
             })
-
     }
 
     useEffect(() => {
@@ -318,7 +314,7 @@ export default function NewRecipe(){
                     fontSize={"large"}
                     onClick={() => {
                         setRecipeSteps([...recipeSteps,""])
-                    }}/>
+                    }}
                 />
             </div>
 

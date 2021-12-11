@@ -102,7 +102,7 @@ export default function Register(){
             setPasswordIcon("approve");
         }else{
             setPasswordIcon("deny");
-            makeToast("Password must contain at least 3 characters.")
+            makeToast("Password must contain at least 8 characters.")
             approve = false;
         }
         return approve;

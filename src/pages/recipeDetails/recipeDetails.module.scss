@@ -1,0 +1,122 @@
+@import "../../scss/_palette.scss";
+
+.wrapper{
+  margin-top: 40px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.headerWrapper{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & svg{
+    fill: $accentMain;
+    &:hover{
+      cursor: pointer;
+      fill: $accentLight;
+    }
+  }
+}
+.recipeTitle{
+  color: $accentMain;
+  font-size: 30px;
+}
+.recipeSubTitle{
+  color: $textSecondary;
+  margin-top: 15px;
+}
+.likeIcon{
+  text-align: center;
+}
+.tooltip{
+  font-size: 14px;
+  font-weight: normal;
+  font-family: "Roboto", sans-serif;
+}
+.banner{
+  display: flex;
+  margin-top: 30px;
+  height: 500px;
+  img{
+    width: 50%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .paper{
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+    box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+    width: 44.7%;
+    margin-left: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+  }
+  .description{
+    margin-top: 15px;
+    white-space:pre-wrap;
+    font-size: 17px;
+    color: $textPrimary;
+    height: 60%;
+    overflow-y: auto;
+    text-align: justify;
+    margin-right: -13px;
+    margin-bottom: 15px;
+    padding-right: 14px;
+    &::-webkit-scrollbar {
+      width: 0.3em;
+      height: 1em;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba($textPrimary, 0.3);
+      border-radius: 3px;
+
+      &:hover {
+        background: rgba($textPrimary, 0.5);
+      }
+    }
+    border-left: 0;
+    border-right: 0;
+  }
+  .timeIcon{
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+  .duration{
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+    font-size: 18px;
+  }
+  .infoWrapper{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+  .cuisine{
+    font-size: 18px;
+  }
+  .category{
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .allergyBlock{
+    display: flex;
+  }
+  .allergens{
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  .allergensWrapper{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+}

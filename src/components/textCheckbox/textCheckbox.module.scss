@@ -9,6 +9,8 @@
   font-size: 18px;
   &:first-letter{
     text-transform: capitalize;
+    user-select: none;
+    user-drag: none;
   }
   &:last-child{
     margin-bottom: -10px;

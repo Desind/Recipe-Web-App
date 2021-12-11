@@ -10,7 +10,6 @@ import {endpoints} from "../../api/endpoints";
 import _ from "lodash";
 import TextCheckbox from "../../components/textCheckbox";
 import Pagination from "@mui/material/Pagination";
-import {func} from "prop-types";
 
 
 export default function Homepage(){
@@ -72,7 +71,7 @@ export default function Homepage(){
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/api/recipes/1", requestOptions)
+        fetch("http://localhost:8080/api/recipes/" + page, requestOptions)
             .then(response => {
                 if(response.status === 200){
                     return response.json();
@@ -81,6 +80,33 @@ export default function Homepage(){
                 setFetchedRecipes(result);
             }
         )
+    }
+
+    function parseISOTime(time){
+        let date = new Date(time);
+        let year = date.getFullYear();
+        let month = date.getMonth()+1;
+        let dt = date.getDate();
+        let h = date.getHours();
+        let m = date.getMinutes();
+        let s = date.getSeconds();
+        if (dt < 10) {
+            dt = '0' + dt;
+        }
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (s < 10) {
+            s = '0' + s;
+        }
+        if (m < 10) {
+            m = '0' + m;
+        }
+        if (h < 10) {
+            h = '0' + h;
+        }
+
+        return year + '-' + month + '-' + dt + " " + h + ":" + m + ":" + s;
     }
 
     useEffect(() => {
@@ -110,7 +136,6 @@ export default function Homepage(){
                                     return(
                                         <AllergenCheckbox disabled={disabledAllergens.includes(item)} allergen={item} onClick={() => {
                                             if(!disabledAllergens.includes(item)){
-                                                console.log("penis");
                                                 setDisabledAllergens([...disabledAllergens,item]);
                                             }else{
                                                 setDisabledAllergens([...disabledAllergens].filter(function(allergy) {return allergy !== item}))
@@ -174,6 +199,7 @@ export default function Homepage(){
                 {fetchedRecipes.map((item,id) =>{
                     return(
                         <RecipeCard
+                            id={item.id}
                             title={item.title}
                             description={item.description}
                             cuisine={item.cuisines.toString()}
@@ -182,7 +208,7 @@ export default function Homepage(){
                             image={item.images}
                             time={item.duration}
                             author={item.owner}
-                            creationDate={item.creationDate}
+                            creationDate={parseISOTime(item.creationDate)}
                         />
                     )
                 })}
