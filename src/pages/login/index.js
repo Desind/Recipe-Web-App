@@ -56,6 +56,7 @@ export default function Login(){
                     setGlobalState('refreshToken', result.refresh_token);
                     setGlobalState('username', decoded.username);
                     setGlobalState('userRole', decoded.roles[0]);
+                    setGlobalState('userId', decoded.user_id);
                     setGlobalState('email', decoded.sub);
                     history.push('');
                     toast.success("Successfully logged in as " + decoded.username, {

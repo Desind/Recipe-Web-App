@@ -13,6 +13,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import NewRecipe from "./pages/newRecipe";
 import RecipeDetails from "./pages/recipeDetails";
+import AdminPanel from "./pages/adminPanel";
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
                   </Route>
                   <Route exact path="/new">
                       <NewRecipe/>
+                  </Route>
+                  <Route exact path="/admin">
+                      <AdminPanel/>
                   </Route>
               </Switch>
           </BrowserRouter>

@@ -1,0 +1,162 @@
+@import "../../scss/_palette.scss";
+
+.header{
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 2.5fr 0 9fr;
+}
+.wrapperLeft {
+  width: 100%;
+  grid-column: 1;
+}
+.wrapperRight {
+  width: 100%;
+  grid-column: 3;
+}
+.tabButton{
+  font-size: 20px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: 1px solid $textSecondary;
+  border-bottom: 3px solid $textSecondary;
+  cursor: pointer;
+  &:last-child{
+    margin-bottom: 0;
+  }
+  &:hover{
+    background-color: lighten($textSecondary, 45%);
+    transition: 0.2s ease;
+  }
+}
+
+.tabButtonActive{
+  @extend .tabButton;
+  border-bottom: 3px solid $accentMain;
+  box-shadow: 0px 1px 12px -5px rgba(66, 68, 90, 1);
+  background-color: lighten($accentMain, 40%);
+  cursor: default;
+  &:hover{
+    background-color: lighten($accentMain, 40%);
+  }
+}
+.content{
+  border-radius: 10px;
+  box-shadow: 0px 1px 12px -5px rgba(0,0,0, 1);
+  margin-left: 30px;
+  margin-top: 25px;
+  padding: 10px 10px;
+}
+
+.user{
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  border-bottom: 1px solid $textSecondary;
+  border-left: 1px solid $textSecondary;
+  border-right: 1px solid $textSecondary;
+}
+.userHeader{
+  background-color: #ffeeb8;
+  border: 2px solid $textSecondary;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+.username{
+  width: 15%;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.email{
+  width: 30%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.registrationDate{
+  width: 20%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.recipes{
+  width: 15%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.role{
+  width:10%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.actions{
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+.tooltip{
+  font-size: 16px;
+  font-weight: normal;
+}
+.searchBar{
+  margin: 5px 0;
+  width: 100%;
+  display: grid;
+  & div{
+    padding-left: 5px;
+  }
+  grid-template-columns: 2fr 1fr 60px;
+  grid-gap: 10px;
+}
+.inputLabel{
+  font-size: 18px;
+  font-weight: bold;
+  color: $accentMain;
+}
+.input{
+  font-size: 18px;
+  padding: 5px;
+}
+.searchButton{
+  background-color: $accentMain;
+  border: 1px solid $textSecondary;
+  border-radius: 10px;
+  &:hover{
+    background-color: $accentLight;
+    transition: 0.2s ease;
+    cursor: pointer;
+  }
+}
+.searchBarRecipe{
+  margin: 5px 0;
+  width: 100%;
+  display: grid;
+  & div{
+    padding-left: 5px;
+  }
+  grid-template-columns: 1fr 60px;
+  grid-gap: 10px;
+}
+.recipeName{
+  width:45%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.author{
+  width:25%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.creationDate{
+  width:20%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

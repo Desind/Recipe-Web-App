@@ -9,7 +9,14 @@ export const endpoints = {
     newRecipe: base + '/api/recipe',
     allRecipes: base + '/recipes/',
     getUsername: base + '/api/username/',
-    getRecipe: base + '/api/recipe/'
+    getRecipe: base + '/api/recipe/',
+    getFavouriteRecipes: base + '/api/favourite-recipes/',
+    likeRecipe: base + '/api/like-recipe/',
+    dislikeRecipe: base + '/api/dislike-recipe/',
+    adminGetUsers: base + '/api/admin/users',
+    adminGetRecipes: base + '/api/admin/recipes',
+    adminChangeRole: base + '/api/admin/user-role',
+    adminDeleteUser: base + '/api/admin/user'
 }
 
 

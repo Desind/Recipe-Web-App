@@ -10,10 +10,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.favButton{
   & svg{
     fill: $accentMain;
     &:hover{
       cursor: pointer;
+      fill: $accentLight;
+    }
+  }
+  &Disabled{
+    & svg{
       fill: $accentLight;
     }
   }
@@ -119,4 +126,52 @@
     align-items: center;
     margin-top: 10px;
   }
+}
+
+.ingredientsWrapper{
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 80px;
+  margin-right: 100px;
+  margin-left: 100px;
+  -webkit-box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+  box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+}
+.ingredientsTitle{
+  font-size: 26px;
+  color: $accentMain;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  padding-top: 10px;
+}
+.ingredient{
+  font-size: 20px;
+  margin-bottom: 10px;
+  padding-left: 60px;
+  color: $textSecondary;
+}
+
+.recipeWrapper{
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 100px 100px;
+  -webkit-box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+  box-shadow: 0px 3px 20px -14px rgba(0, 0, 0, 1);
+}
+.recipeStep{
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-left: 60px;
+  padding-right: 60px;
+  text-align: justify;
+  color: $textSecondary;
+}
+.recipeStepTitle{
+  font-size: 26px;
+  color: $accentMain;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
 }

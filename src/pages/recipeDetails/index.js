@@ -9,7 +9,9 @@ import Difficulty from "../../components/difficulty";
 import time from "../../assets/time.svg";
 import {Divider} from "@mui/material";
 import AllergenIcon from "../../components/allergenIcon";
-import noImage from "../../assets/no-image.jpg"
+import noImage from "../../assets/no-image.jpg";
+import _ from "lodash";
+import {useGlobalState} from "../../state";
 
 export default function RecipeDetails(){
 
@@ -18,6 +20,13 @@ export default function RecipeDetails(){
     const [recipe, setRecipe] = React.useState({});
     const [author, setAuthor] = React.useState("unknown");
     const [loaded, setLoaded] = React.useState(false);
+
+
+    const [disableFav, setDisableFav] = React.useState(false);
+    const [favouriteRecipes, setFavouriteRecipes] = React.useState([]);
+
+    const token = useGlobalState("token")[0];
+    const userId = useGlobalState("userId")[0];
 
     function fetchRecipe(id){
         var requestOptions = {
@@ -100,8 +109,62 @@ export default function RecipeDetails(){
             })
     }
 
+    function fetchFavouriteRecipes(){
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(endpoints.getFavouriteRecipes + userId, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setFavouriteRecipes(result.favouriteRecipes);
+                setDisableFav(false);
+            })
+    }
+
+    function likeRecipe(){
+        setDisableFav(true);
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(endpoints.likeRecipe + id, requestOptions)
+            .then(response => {
+                if(response.status === 200){
+                    fetchFavouriteRecipes();
+                }
+            })
+
+
+    }
+    function dislikeRecipe(){
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(endpoints.dislikeRecipe + id, requestOptions)
+            .then(response => {
+                if(response.status === 200){
+                    fetchFavouriteRecipes();
+                }
+            })
+    }
+
     useEffect(() => {
         fetchRecipe(id);
+        if(userId !== ""){
+            fetchFavouriteRecipes();
+        }
     },[])
 
     return(
@@ -113,12 +176,20 @@ export default function RecipeDetails(){
                         <div className={styles.recipeSubTitle}>Created by {author} at {parseISOTime(recipe.creationDate)} </div>
                     </div>
                     <div className={styles.likeIcon}>
-                        <Tooltip title={<span className={styles.tooltip}>Add favourite</span>} arrow>
-                            <FavoriteBorderIcon fontSize={"large"}/>
-                        </Tooltip>
-                        <Tooltip title={<span className={styles.tooltip}>Remove favourite</span>} arrow>
-                            <FavoriteIcon fontSize={"large"}/>
-                        </Tooltip>
+                        {(userId !== "" && !favouriteRecipes.includes(id)) &&
+                            <div className={!disableFav ? styles.favButton : styles.favButtonDisabled} disabled={disableFav} >
+                                {!disableFav ? <Tooltip enterDelay={300} enterNextDelay={300} title={<span className={styles.tooltip}>Add favourite</span>} arrow>
+                                    <FavoriteBorderIcon onClick={() => {likeRecipe()}} fontSize={"large"}/>
+                                </Tooltip> : <FavoriteBorderIcon fontSize={"large"}/>}
+                            </div>
+                        }
+                        {(userId !== "" && favouriteRecipes.includes(id)) &&
+                            <div className={!disableFav ? styles.favButton : styles.favButtonDisabled} disabled={disableFav}>
+                                {!disableFav ? <Tooltip enterDelay={300} enterNextDelay={300} title={<span className={styles.tooltip}>Remove favourite</span>} arrow>
+                                    <FavoriteIcon onClick={() => {dislikeRecipe()}} fontSize={"large"}/>
+                                </Tooltip> : <FavoriteIcon fontSize={"large"}/>}
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className={styles.banner}>
@@ -136,20 +207,31 @@ export default function RecipeDetails(){
                         <div className={styles.allergensWrapper}>
                             <p className={styles.allergens}>Allergens:</p>
                             <div className={styles.allergyBlock}>
-                                <AllergenIcon allergen={"EGGS"}/>
-                                <AllergenIcon allergen={"MILK"}/>
-                                <AllergenIcon allergen={"CELERY"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
-                                <AllergenIcon allergen={"FISH"}/>
+                                {_.orderBy(recipe.allergens).map((item) => {
+                                    return <AllergenIcon allergen={item}/>
+                                })}
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className={styles.ingredientsWrapper}>
+                    <p className={styles.ingredientsTitle}>Ingredients</p>
+                    <div className={styles.ingredientsContainer}>
+                        {recipe.ingredients.map((item) => {
+                          return(
+                              <div className={styles.ingredient}>{item}</div>
+                          )
+                        })}
+                    </div>
+                </div>
+                <div className={styles.recipeWrapper}>
+                    <p className={styles.recipeStepTitle}>Steps</p>
+                    <div className={styles.ingredientsContainer}>
+                        {recipe.steps.map((item) => {
+                          return(
+                              <div className={styles.recipeStep}>{item}</div>
+                          )
+                        })}
                     </div>
                 </div>
             </>}

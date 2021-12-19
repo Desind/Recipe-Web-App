@@ -5,7 +5,8 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     refreshToken: "",
     username: "",
     userRole: "",
-    email: ""
+    email: "",
+    userId: ""
 });
 
 export {useGlobalState, setGlobalState}
