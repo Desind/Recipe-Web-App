@@ -14,6 +14,8 @@ import Pagination from "@mui/material/Pagination";
 
 export default function Homepage(){
 
+    const [title, setTitle] = React.useState("")
+
     const [allAllergens, setAllAllergens] = React.useState([]);
     const [disabledAllergens, setDisabledAllergens] = React.useState([]);
 
@@ -24,6 +26,12 @@ export default function Homepage(){
     const [selectedCuisines, setSelectedCuisines] = React.useState([]);
 
     const [fetchedRecipes, setFetchedRecipes] = React.useState([]);
+
+    const [page, setPage] = React.useState(1);
+    const [pageCount, setPageCount] = React.useState(0);
+    const [paginationDisabled, setPaginationDisabled] = React.useState(false);
+
+    const [currentAccordion,setCurrentAccordion] = React.useState(0);
 
     function fetchAllergens(){
         var requestOptions = {
@@ -65,19 +73,25 @@ export default function Homepage(){
             })
     }
 
-    function fetchAllRecipes(page){
+    function fetchRecipes(){
+        setPaginationDisabled(true);
+        console.log("fetch", page)
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/api/recipes/" + page, requestOptions)
+        fetch(endpoints.getRecipesQuery+"?title="+title+"&allergens="+disabledAllergens.toString()+"&categories="+selectedCategories.toString()+"&cuisines="+selectedCuisines.toString()+"&page="+page+"&pageSize=8", requestOptions)
             .then(response => {
                 if(response.status === 200){
                     return response.json();
                 }else return [];
             }).then(result => {
-                setFetchedRecipes(result);
+                setFetchedRecipes(result.recipes);
+                setPageCount(result.pageCount);
+                console.log(result.recipes);
+                setPage(result.page);
+                setPaginationDisabled(false);
             }
         )
     }
@@ -113,19 +127,23 @@ export default function Homepage(){
         fetchAllergens();
         fetchCuisines();
         fetchCategories();
-        fetchAllRecipes(1);
+        fetchRecipes();
     },[]);
     useEffect(() => {
-        console.log(disabledAllergens);
-    },[disabledAllergens]);
+        fetchRecipes();
+    },[page]);
 
     return(
         <div className={styles.wrapper}>
             <div className={styles.bar}>
                 <h2 className={styles.searchTitle}>Filter recipes</h2>
+                <input onChange={(e) => {
+                    setTitle(e.target.value);
+                }} type={"text"} className={styles.searchInput}/>
                 <div>
-                    <Accordion defaultExpanded={true} className={styles.accordion}>
+                    <Accordion expanded={currentAccordion === 1} className={styles.accordion}>
                         <AccordionSummary
+                            onClick={() => {currentAccordion !== 1 ? (setCurrentAccordion(1)):setCurrentAccordion(0)}}
                             expandIcon={<ExpandMoreIcon />}
                         >
                             <div className={styles.accordionTitle}>Allergens {disabledAllergens.length>0 && <p>({disabledAllergens.length})</p>}</div>
@@ -146,9 +164,10 @@ export default function Homepage(){
                             </div>
                         </AccordionDetails>
                     </Accordion>
-                    <Accordion defaultExpanded={true} className={styles.accordion}>
+                    <Accordion expanded={currentAccordion === 2} className={styles.accordion}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
+                            onClick={() => {currentAccordion !== 2 ? (setCurrentAccordion(2)):setCurrentAccordion(0)}}
                         >
                             <div className={styles.accordionTitle}>Cuisines {selectedCuisines.length>0 && <p>({selectedCuisines.length})</p>}</div>
                         </AccordionSummary>
@@ -168,9 +187,10 @@ export default function Homepage(){
                             </div>
                         </AccordionDetails>
                     </Accordion>
-                    <Accordion defaultExpanded={true} className={styles.accordion}>
+                    <Accordion expanded={currentAccordion === 3} className={styles.accordion}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
+                            onClick={() => {currentAccordion !== 3 ? (setCurrentAccordion(3)):setCurrentAccordion(0)}}
                         >
                             <div className={styles.accordionTitle}>Categories {selectedCategories.length>0 && <p>({selectedCategories.length})</p>}</div>
                         </AccordionSummary>
@@ -190,7 +210,7 @@ export default function Homepage(){
                             </div>
                         </AccordionDetails>
                     </Accordion>
-                    <button className={styles.searchButton}>
+                    <button onClick={() => fetchRecipes()} className={styles.searchButton}>
                         <p>Search</p>
                     </button>
                 </div>
@@ -212,7 +232,9 @@ export default function Homepage(){
                         />
                     )
                 })}
-                <Pagination size="large" shape="rounded" count={10} />
+                {pageCount>1 && <Pagination onChange={(e,v) => {
+                    setPage(v);
+                }}  disabled={paginationDisabled} style={{marginTop: "30px", marginBottom:"-40px"}} size="large" shape="rounded" count={pageCount} />}
             </div>
         </div>
     )

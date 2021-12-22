@@ -12,18 +12,18 @@ export default function RecipeTextInput(props){
             {props.type === "line" &&
                 (props.array === false ?
                     (
-                        <input className={styles.lineInput} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                        <input className={styles.lineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
                     ):(
-                        <input className={styles.lineInput} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
+                        <input className={styles.lineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
                     )
                 )
             }
             {props.type === "multiline" &&
                 (props.array === false ?
                         (
-                            <TextareaAutosize className={styles.multilineInput} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
+                            <TextareaAutosize className={styles.multilineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
                         ):(
-                            <TextareaAutosize className={styles.multilineInput} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
+                            <TextareaAutosize className={styles.multilineInput} value={props.value} onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
                         )
                 )
             }

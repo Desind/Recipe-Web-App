@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import styles from "./adminPanel.module.scss"
-import {setGlobalState, useGlobalState} from "../../state";
-import {toast} from "react-toastify";
+import {useGlobalState} from "../../state";
 import { useHistory } from "react-router-dom";
 import { endpoints } from "../../api/endpoints";
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,10 +11,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import SearchIcon from '@mui/icons-material/Search';
 import _ from "lodash";
-import Button from "@material-ui/core/Button";
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 
 export default function AdminPanel(){
 
@@ -29,13 +24,11 @@ export default function AdminPanel(){
     let [fetchedUsers, setFetchedUsers] = React.useState([]);
     let [fetchedRecipes, setFetchedRecipes] = React.useState([]);
 
+    //input
     let [queryInput, setQueryInput] = React.useState("");
-    let [searchQuery, setSearchQuery] = React.useState("");
-
     let [queryRoles, setQueryRoles] = React.useState("ADMIN,USER");
-    let [rolesQuery, setRolesQuery] = React.useState("ADMIN,USER");
-
     let [recipeQuery, setRecipeQuery] = React.useState("");
+    let [emailQuery, setEmailQuery] = React.useState("");
 
 
     const token = useGlobalState('token')[0];
@@ -65,7 +58,7 @@ export default function AdminPanel(){
             redirect: 'follow'
         };
 
-        fetch(endpoints.adminGetRecipes+"?name="+name+"&owner="+owner, requestOptions)
+        fetch(endpoints.adminGetRecipes+"?name="+name+"&email="+owner, requestOptions)
             .then(response => response.json())
             .then(result => setFetchedRecipes(_.sortBy(result,["creationDate"])));
     }
@@ -88,7 +81,7 @@ export default function AdminPanel(){
         };
 
         await fetch(endpoints.adminChangeRole, requestOptions);
-        fetchUsers(searchQuery,rolesQuery);
+        fetchUsers(queryInput,queryRoles);
     }
 
     async function deleteUser(id){
@@ -102,7 +95,21 @@ export default function AdminPanel(){
         };
 
         await fetch(endpoints.adminDeleteUser+"?id="+id, requestOptions);
-        fetchUsers(searchQuery,rolesQuery);
+        fetchUsers(queryInput,queryRoles);
+    }
+
+    async function deleteRecipe(id){
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        await fetch(endpoints.adminDeleteRecipe+id, requestOptions);
+        fetchRecipes(recipeQuery,emailQuery);
     }
 
     function parseISOTime(time){
@@ -136,7 +143,8 @@ export default function AdminPanel(){
         if(role !== "ADMIN"){
             history.replace("/");
         }
-        fetchUsers(searchQuery,rolesQuery);
+        fetchUsers(queryInput,queryRoles);
+        fetchRecipes(recipeQuery,emailQuery);
     },[])
 
     return(
@@ -187,8 +195,6 @@ export default function AdminPanel(){
                                     <option value={"USER"}>User</option>
                                 </select>
                                 <button onClick={() => {
-                                    setSearchQuery(queryInput);
-                                    setRolesQuery(queryRoles);
                                     fetchUsers(queryInput,queryRoles);
                                 }} className={styles.searchButton}><SearchIcon/></button>
                             </div>
@@ -210,7 +216,12 @@ export default function AdminPanel(){
                                         <div className={styles.role}>{item.userRoles}</div>
                                         <div className={styles.actions}>
                                             <Tooltip title={<p className={styles.tooltip}>List recipes</p>}>
-                                                <FormatListBulletedIcon style={{cursor: "pointer"}}/>
+                                                <FormatListBulletedIcon onClick={() => {
+                                                    setEmailQuery(item.email);
+                                                    setRecipeQuery("");
+                                                    setActiveTab("recipes");
+                                                    fetchRecipes("", item.email);
+                                                }} style={{cursor: "pointer"}}/>
                                             </Tooltip>
                                             {item.email != email && <>
                                                 {(item.userRoles == "ADMIN") ?
@@ -244,38 +255,46 @@ export default function AdminPanel(){
                     }
                     {activeTab === "recipes" &&
                         <div className={styles.content}>
-                            <div className={styles.searchBarRecipe}>
+                            <div className={styles.searchBar}>
                                 <div className={styles.inputLabel}>Recipe name</div>
+                                <div className={styles.inputLabel}>Author email</div>
                             </div>
-                            <div className={styles.searchBarRecipe}>
+                            <div className={styles.searchBar}>
                                 <input value={recipeQuery} className={styles.input} onChange={(e) => {
                                     setRecipeQuery(e.target.value);
                                 }}/>
+                                <input value={emailQuery} className={styles.input} onChange={(e) => {
+                                    setEmailQuery(e.target.value);
+                                }}/>
                                 <button onClick={() => {
-
+                                    fetchRecipes(recipeQuery,emailQuery);
                                 }} className={styles.searchButton}><SearchIcon/></button>
                             </div>
                             <div className={styles.userHeader}>
-                                <div className={styles.recipeName}>Recipe name</div>
+                                <div className={styles.recipeNameTitle}>Recipe name</div>
                                 <div className={styles.author}>Author</div>
                                 <div className={styles.creationDate}>Creation date</div>
                                 <div className={styles.actions}>Actions</div>
                             </div>
-                            <div className={styles.user}>
-                                <div className={styles.recipeName}>Recipe name</div>
-                                <div className={styles.author}>Author</div>
-                                <div className={styles.creationDate}>Creation date</div>
-                                <div className={styles.actions}>
-                                    <Tooltip title={<p className={styles.tooltip}>Delete recipe</p>}>
-                                        <CloseIcon
-                                            onClick={() => {
-
-                                            }}
-                                            style={{cursor: "pointer"}}
-                                        />
-                                    </Tooltip>
-                                </div>
-                            </div>
+                            {fetchedRecipes.map((item, key) => {
+                                return(
+                                    <div className={styles.user}>
+                                        <div onClick={() => {history.push("/recipe/"+item.id)}} className={styles.recipeName}>{item.title}</div>
+                                        <div className={styles.author}>{item.ownerUsername}</div>
+                                        <div className={styles.creationDate}>{parseISOTime(item.creationDate)}</div>
+                                        <div className={styles.actions}>
+                                            <Tooltip title={<p className={styles.tooltip}>Delete recipe</p>}>
+                                                <CloseIcon
+                                                    onClick={() => {
+                                                        deleteRecipe(item.id);
+                                                    }}
+                                                    style={{cursor: "pointer"}}
+                                                />
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+                                )
+                            })}
                         </div>
                     }
                 </div>

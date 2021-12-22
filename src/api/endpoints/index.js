@@ -5,6 +5,7 @@ export const endpoints = {
     login: base + '/login',
     getCategories: base + '/api/recipe/categories',
     getCuisines: base + '/api/recipe/cuisines',
+    getRecipes: base + '/api/recipes/',
     getAllergens: base + '/api/allergens',
     newRecipe: base + '/api/recipe',
     allRecipes: base + '/recipes/',
@@ -16,7 +17,11 @@ export const endpoints = {
     adminGetUsers: base + '/api/admin/users',
     adminGetRecipes: base + '/api/admin/recipes',
     adminChangeRole: base + '/api/admin/user-role',
-    adminDeleteUser: base + '/api/admin/user'
+    adminDeleteUser: base + '/api/admin/user',
+    adminDeleteRecipe: base + '/api/admin/recipe/',
+    getRecipesQuery: base + '/api/recipe/query',
+    editRecipe: base + '/api/recipe',
+    deleteRecipe: base + '/api/recipe/'
 }
 
 

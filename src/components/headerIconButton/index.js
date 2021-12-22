@@ -28,6 +28,7 @@ export default function HeaderIconButton(){
                 onClick={(event) => {
                     setAnchorEl(event.currentTarget);
                 }}
+                style={{width: "100%", height: "100%", display: "flex", alignItems:"center", justifyContent:"center"}}
             >
                 <img src={chef} alt={""}/>
             </div>

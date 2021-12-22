@@ -1,13 +1,19 @@
 @import "../../scss/_palette.scss";
 
 .header{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   border-color: $textSecondary;
   border-style: inset;
   border-width: 0 0 2px 0;
-  margin-bottom: 20px;
+  background-color: $backggroundTranslucent;
+}
+.headerWrapper{
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 1440px;
+  width: 100%;
 }
 
 .menuWrapper{

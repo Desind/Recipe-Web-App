@@ -25,7 +25,7 @@ export default function Difficulty(props){
                 setDiffNumber(5);
                 break;
         }
-    },[])
+    },[props.difficulty])
 
     return(
         <div className={styles.difficultyWrapper}>

@@ -26,7 +26,11 @@ export default function RecipeCard(props){
                 }
             })
             .then(json => {
-                setAuthor(json.username);
+                try{
+                    setAuthor(json.username);
+                }catch (e) {
+                    setAuthor("Unknown");
+                }
             })
     }
 

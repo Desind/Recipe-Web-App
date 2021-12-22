@@ -14,35 +14,39 @@ import Register from "./pages/register";
 import NewRecipe from "./pages/newRecipe";
 import RecipeDetails from "./pages/recipeDetails";
 import AdminPanel from "./pages/adminPanel";
+import EditRecipe from "./pages/editRecipe";
 
 function App() {
   return (
-      <ContentWrapper>
-          <ToastContainer/>
           <BrowserRouter>
+              <ToastContainer/>
               <Header/>
-              <Switch>
-                  <Route exact path="/">
-                      <Homepage/>
-                  </Route>
-                  <Route exact path="/login">
-                      <Login/>
-                  </Route>
-                  <Route exact path="/register">
-                      <Register/>
-                  </Route>
-                  <Route exact path="/recipe/:id">
-                      <RecipeDetails/>
-                  </Route>
-                  <Route exact path="/new">
-                      <NewRecipe/>
-                  </Route>
-                  <Route exact path="/admin">
-                      <AdminPanel/>
-                  </Route>
-              </Switch>
+              <ContentWrapper>
+                <Switch>
+                    <Route exact path="/">
+                        <Homepage/>
+                    </Route>
+                    <Route exact path="/login">
+                        <Login/>
+                    </Route>
+                    <Route exact path="/register">
+                        <Register/>
+                    </Route>
+                    <Route exact path="/recipe/:id">
+                        <RecipeDetails/>
+                    </Route>
+                    <Route exact path="/edit/:id">
+                        <EditRecipe/>
+                    </Route>
+                    <Route exact path="/new">
+                        <NewRecipe/>
+                    </Route>
+                    <Route exact path="/admin">
+                        <AdminPanel/>
+                    </Route>
+                </Switch>
+              </ContentWrapper>
           </BrowserRouter>
-      </ContentWrapper>
   );
 }
 

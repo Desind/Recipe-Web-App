@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import styles from "./newRecipe.module.scss"
+import styles from "./editRecipe.module.scss"
 import RecipeTextInput from "../../components/recipeTextInput";
 import AddIcon from '@mui/icons-material/Add';
 import Accordion from '@mui/material/Accordion';
@@ -25,13 +25,15 @@ import Sulphite from "../../assets/allergies/sulphite.svg"
 import { endpoints } from "../../api/endpoints";
 import _ from 'lodash';
 import { useGlobalState } from "../../state"
-import { useHistory } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 
 
-export default function NewRecipe(){
+export default function EditRecipe(){
 
     const imageRef = useRef(null);
+
+    const {id} = useParams();
 
     const [allCategories, setAllCategories] = React.useState([]);
     const [selectedCategories, setSelectedCategories] = React.useState([]);
@@ -56,8 +58,12 @@ export default function NewRecipe(){
     const [sendDisabled, setSendDisabled] = React.useState(false);
 
     const token = useGlobalState('token')[0];
+    const userId = useGlobalState('userId')[0];
 
     const history = useHistory();
+
+    const [recipe, setRecipe] = React.useState({});
+    const [loaded, setLoaded] = React.useState(false);
 
     /* eslint-disable */
     function fetchCategories(){
@@ -110,11 +116,10 @@ export default function NewRecipe(){
 
     function uploadImage(file) {
         let reader = new FileReader();
+        reader.readAsDataURL(file);
         try{
-            reader.readAsDataURL(file);
             reader.onload = function () {
                 setImage(reader.result);
-                console.log(reader.result.length);
             };
         }catch (e){
 
@@ -159,8 +164,30 @@ export default function NewRecipe(){
             }
         }
     }
+    function parseDifficultyToNumber(dif){
+        switch (dif){
+            case 'BEGGINER': {
+                return "1";
+            }
+            case 'EASY': {
+                return "2";
+            }
+            case 'AVERAGE': {
+                return "3";
+            }
+            case 'ADVANCED': {
+                return "4";
+            }
+            case 'HARD': {
+                return "5";
+            }
+            default:{
+                return "3";
+            }
+        }
+    }
 
-    function uploadRecipe(){
+    function editRecipe(){
         setSendDisabled(true);
 
         var myHeaders = new Headers();
@@ -193,12 +220,12 @@ export default function NewRecipe(){
             redirect: 'follow'
         };
 
-        fetch(endpoints.newRecipe, requestOptions)
+        fetch(endpoints.editRecipe, requestOptions)
             .then(response => {
                 if(response.status === 201){
                     return response.json();
                 }else{
-                    toast.error('Could not publish new recipe. Try again later.', {
+                    toast.error('Could not modify recipe. Try again later.', {
                         position: "bottom-right",
                         autoClose: 8000,
                         hideProgressBar: false,
@@ -206,39 +233,69 @@ export default function NewRecipe(){
                         draggable: true,
                         progress: undefined,
                     });
+                    setSendDisabled(false);
                     return null;
                 }
             }).then(json => {
-                if(json !== null){
-                    toast.success('Recipe published successfully.', {
-                        position: "bottom-right",
-                        autoClose: 8000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                    history.push('/recipe/'+json.id);
+            if(json !== null){
+                toast.success('Recipe modified successfully.', {
+                    position: "bottom-right",
+                    autoClose: 8000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                history.push('/recipe/'+json.id);
+            }
+        })
+    }
+
+    function fetchRecipe(id){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch(endpoints.getRecipe + id, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if(result.owner != userId){
+                    history.replace("/");
+                    return;
                 }
-            })
+                setRecipe(result);
+                setLoaded(true);
+                setTitle(result.title);
+                setDescription(result.description);
+                setIngredients(result.ingredients);
+                setRecipeSteps(result.steps);
+                setSelectedAllergies(result.allergens);
+                setSelectedCategories(result.categories);
+                setSelectedCuisines(result.cuisines);
+                setImage(result.images);
+                setDuration(result.duration);
+                setDifficulty(parseDifficultyToNumber(result.difficulty));
+                console.log(result);
+            }).catch((e) => {
+            console.log(e.toString());
+        })
     }
 
     useEffect(() => {
-        if (token === ''){
-            history.replace('/login');
-        }
         fetchCategories();
         fetchCuisines();
+        fetchRecipe(id);
     },[]);
 
     return(
         <div className={styles.wrapper}>
-            <h1>New Recipe</h1>
+            <h1>Edit recipe</h1>
             <div className={styles.label}>Title</div>
-            <RecipeTextInput type={"line"} valueChange={setTitle}/>
+            <RecipeTextInput value={title} type={"line"} valueChange={setTitle}/>
 
             <div className={styles.label}>Description</div>
-            <RecipeTextInput type={"multiline"} valueChange={setDescription}/>
+            <RecipeTextInput value={description} type={"multiline"} valueChange={setDescription}/>
 
             <div className={styles.label}>Ingredients</div>
             {ingredients.map((item,id) => {
@@ -273,7 +330,6 @@ export default function NewRecipe(){
                                 array={true}
                                 index={id}
                                 onRemoveLine={() => {
-                                    console.log(id);
                                     let array = [...ingredients];
                                     array.splice(id,1);
                                     setIngredients(array);
@@ -319,6 +375,7 @@ export default function NewRecipe(){
                                         setRecipeSteps(array);
                                     }}
                                 />
+
                         ):(
                             <RecipeTextInput
                                 type={"removableMultiline"}
@@ -583,7 +640,7 @@ export default function NewRecipe(){
             </div>
 
             <div className={styles.buttonWrapper}>
-                <FormButton disabled={sendDisabled} text={"Publish recipe"} onClick={uploadRecipe}/>
+                <FormButton disabled={sendDisabled} text={"Edit recipe"} onClick={editRecipe}/>
             </div>
         </div>
     )
