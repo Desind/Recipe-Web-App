@@ -8,7 +8,7 @@ export default function RecipeTextInput(props){
 
 
     return(
-        <div className={styles.inputWrapper}>
+        <div className={props.fullWidth === true ? (styles.inputWrapperWide) : styles.inputWrapper}>
             {props.type === "line" &&
                 (props.array === false ?
                     (

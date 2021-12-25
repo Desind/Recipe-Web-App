@@ -175,7 +175,7 @@ export default function RecipeDetails(){
             redirect: 'follow'
         };
 
-        fetch(endpoints.getRecipesQuery+"?title=&allergens=&categories="+recipe.categories.toString()+"&cuisines=&page=1&pageSize=4", requestOptions)
+        fetch(endpoints.getRecipesQuery+"?title=&allergens=&categories="+recipe.categories.toString()+"&cuisines=&page=1&pageSize=6", requestOptions)
             .then(response => {
                 if(response.status === 200){
                     return response.json();

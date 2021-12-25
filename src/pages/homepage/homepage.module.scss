@@ -19,12 +19,24 @@
 .bar{
   grid-column: 1;
   .searchTitle{
-    font-size: 24px;
+    font-size: 26px;
     text-align: center;
     font-weight: normal;
     margin-bottom: 10px;
     color: $accentMain;
     user-select: none;
+    padding-bottom: 10px;
+    -webkit-user-drag: none;
+  }
+  .searchTitle2{
+    font-size: 22px;
+    text-align: center;
+    font-weight: normal;
+    margin-bottom: 10px;
+    color: $accentMain;
+    user-select: none;
+    margin-top: 30px;
+    padding-bottom: 10px;
     -webkit-user-drag: none;
   }
   .accordion{
@@ -69,6 +81,12 @@
       cursor: pointer;
 
     }
+    &2{
+      @extend .searchButton;
+      margin-top: 30px;
+      width: 86%;
+      margin-bottom: 0;
+    }
   }
 }
 .allergenWrapper{
@@ -96,4 +114,37 @@
   border-top: 1px solid lightgrey;
   border-right: 1px solid lightgrey;
   border-left: 1px solid lightgrey;
+}
+.inputTitle{
+  color: $accentMain;
+  font-size: 18px;
+  padding-bottom: 5px;
+  text-align: center;
+}
+.inputTitle2{
+  color: $accentMain;
+  margin-top: 5px;
+  font-size: 20px;
+  text-align: center;
+}
+.addButton{
+  background-color: $accentMain;
+  color: black;
+  padding: 0 10px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  &:hover{
+    color: white;
+    cursor: pointer;
+    transition: ease 0.2s;
+  }
+  &Wrapper{
+    display: flex;
+  }
+}
+.searchIngredientsWrapper{
+  width: 100%;
 }

@@ -21,7 +21,11 @@ export const endpoints = {
     adminDeleteRecipe: base + '/api/admin/recipe/',
     getRecipesQuery: base + '/api/recipe/query',
     editRecipe: base + '/api/recipe',
-    deleteRecipe: base + '/api/recipe/'
+    deleteRecipe: base + '/api/recipe/',
+    getRecipesWithIngredients: base + '/api/recipes-with-ingredients?ingredients=',
+    newProduct: base + '/api/product',
+    allProducts: base + '/api/products?',
+    deleteProduct: base + '/api/product/'
 }
 
 

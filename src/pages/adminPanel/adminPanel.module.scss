@@ -170,3 +170,37 @@
   padding-top: 5px;
   padding-bottom: 5px;
 }
+.ean{
+  width:30%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.productName{
+  width:60%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.paginationWrapper{
+  display: flex;
+  justify-content: center;
+}
+.newProductTitle{
+  text-align: center;
+  font-size: 30px;
+  color: $accentMain;
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+.newProductInputWrapper{
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.inputLabelNewProduct{
+  font-size: 18px;
+  font-weight: bold;
+  color: $accentMain;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}

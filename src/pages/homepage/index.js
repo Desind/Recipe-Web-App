@@ -10,6 +10,8 @@ import {endpoints} from "../../api/endpoints";
 import _ from "lodash";
 import TextCheckbox from "../../components/textCheckbox";
 import Pagination from "@mui/material/Pagination";
+import RecipeTextInput from "../../components/recipeTextInput";
+import AddIcon from "@mui/icons-material/Add";
 
 
 export default function Homepage(){
@@ -32,6 +34,16 @@ export default function Homepage(){
     const [paginationDisabled, setPaginationDisabled] = React.useState(false);
 
     const [currentAccordion,setCurrentAccordion] = React.useState(0);
+
+    const [ingredients, setIngredients] = React.useState([""]);
+
+    const [lastSearch, setLastSearch] = React.useState("1");
+
+    function ingredientChange(value, id){
+        let array = [...ingredients];
+        array[id] = value;
+        setIngredients(array);
+    }
 
     function fetchAllergens(){
         var requestOptions = {
@@ -74,6 +86,7 @@ export default function Homepage(){
     }
 
     function fetchRecipes(){
+        setLastSearch("1");
         setPaginationDisabled(true);
         console.log("fetch", page)
         var requestOptions = {
@@ -94,6 +107,27 @@ export default function Homepage(){
                 setPaginationDisabled(false);
             }
         )
+    }
+
+    function fetchRecipesWithIngredients(){
+        setLastSearch("2");
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch(endpoints.getRecipesWithIngredients + ingredients +"&page="+page+"&pageSize=8".toString(), requestOptions)
+            .then(response => {
+                if(response.status === 200){
+                    return response.json();
+                }else return [];
+            }).then(result => {
+                setFetchedRecipes(result.recipes);
+                setPageCount(result.pageCount);
+                console.log(result.recipes);
+                setPage(result.page);
+                setPaginationDisabled(false);
+            })
     }
 
     function parseISOTime(time){
@@ -130,13 +164,18 @@ export default function Homepage(){
         fetchRecipes();
     },[]);
     useEffect(() => {
-        fetchRecipes();
+        if(lastSearch === "1"){
+            fetchRecipes();
+        }else if(lastSearch === "2"){
+            fetchRecipesWithIngredients();
+        }
     },[page]);
 
     return(
         <div className={styles.wrapper}>
             <div className={styles.bar}>
                 <h2 className={styles.searchTitle}>Filter recipes</h2>
+                <p className={styles.inputTitle}>Recipe name</p>
                 <input onChange={(e) => {
                     setTitle(e.target.value);
                 }} type={"text"} className={styles.searchInput}/>
@@ -210,10 +249,77 @@ export default function Homepage(){
                             </div>
                         </AccordionDetails>
                     </Accordion>
+
                     <button onClick={() => fetchRecipes()} className={styles.searchButton}>
                         <p>Search</p>
                     </button>
                 </div>
+                <Accordion expanded={currentAccordion === 4} className={styles.accordion}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        onClick={() => {currentAccordion !== 4 ? (setCurrentAccordion(4)):setCurrentAccordion(0)}}
+                    >
+                        <div className={styles.accordionTitle}>Search using ingredients</div>
+                    </AccordionSummary>
+                    <AccordionDetails className={styles.accordionContent}>
+                        <div className={styles.searchIngredientsWrapper}>
+                            <p className={styles.inputTitle2}>Insert available products</p>
+                            {ingredients.map((item,id) => {
+                                return(
+                                    id === 0 ?
+                                        (
+                                            ingredients.length < 2 ?
+                                                <RecipeTextInput
+                                                    type={"line"}
+                                                    value={ingredients[id]}
+                                                    valueChange={ingredientChange}
+                                                    array={true}
+                                                    index={id}
+                                                /> :
+                                                <RecipeTextInput
+                                                    type={"removableLine"}
+                                                    valueChange={ingredientChange}
+                                                    value={ingredients[id]}
+                                                    array={true}
+                                                    index={id}
+                                                    onRemoveLine={() => {
+                                                        let array = [...ingredients];
+                                                        array.splice(id,1);
+                                                        setIngredients(array);
+                                                    }}
+                                                />
+                                        ):(
+                                            <RecipeTextInput
+                                                type={"removableLine"}
+                                                valueChange={ingredientChange}
+                                                value={ingredients[id]}
+                                                array={true}
+                                                index={id}
+                                                onRemoveLine={() => {
+                                                    console.log(id);
+                                                    let array = [...ingredients];
+                                                    array.splice(id,1);
+                                                    setIngredients(array);
+                                                }}
+                                            />
+                                        )
+
+                                )
+                            })}
+                            <div className={styles.addButtonWrapper}>
+                                <AddIcon
+                                    className={styles.addButton}
+                                    fontSize={"large"}
+                                    onClick={() => {
+                                        setIngredients([...ingredients,""])
+                                    }}/>
+                            </div>
+                            <button onClick={() => {fetchRecipesWithIngredients()}} className={styles.searchButton2}>
+                                <p>Ingredients search</p>
+                            </button>
+                        </div>
+                    </AccordionDetails>
+                </Accordion>
             </div>
             <div className={styles.content}>
                 {fetchedRecipes.map((item,id) =>{
