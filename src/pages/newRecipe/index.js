@@ -247,14 +247,14 @@ export default function NewRecipe(){
                         (
                             ingredients.length < 2 ?
                                 <RecipeTextInput
-                                    type={"line"}
+                                    type={"ingredient"}
                                     value={ingredients[id]}
                                     valueChange={ingredientChange}
                                     array={true}
                                     index={id}
                                 /> :
                                 <RecipeTextInput
-                                    type={"removableLine"}
+                                    type={"removableIngredient"}
                                     valueChange={ingredientChange}
                                     value={ingredients[id]}
                                     array={true}
@@ -267,7 +267,7 @@ export default function NewRecipe(){
                                 />
                         ):(
                             <RecipeTextInput
-                                type={"removableLine"}
+                                type={"removableIngredient"}
                                 valueChange={ingredientChange}
                                 value={ingredients[id]}
                                 array={true}

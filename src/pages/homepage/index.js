@@ -12,6 +12,7 @@ import TextCheckbox from "../../components/textCheckbox";
 import Pagination from "@mui/material/Pagination";
 import RecipeTextInput from "../../components/recipeTextInput";
 import AddIcon from "@mui/icons-material/Add";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
 
 export default function Homepage(){
@@ -38,6 +39,8 @@ export default function Homepage(){
     const [ingredients, setIngredients] = React.useState([""]);
 
     const [lastSearch, setLastSearch] = React.useState("1");
+
+    const [data, setData] = React.useState("Not Found");
 
     function ingredientChange(value, id){
         let array = [...ingredients];
@@ -270,14 +273,14 @@ export default function Homepage(){
                                         (
                                             ingredients.length < 2 ?
                                                 <RecipeTextInput
-                                                    type={"line"}
+                                                    type={"ingredient"}
                                                     value={ingredients[id]}
                                                     valueChange={ingredientChange}
                                                     array={true}
                                                     index={id}
                                                 /> :
                                                 <RecipeTextInput
-                                                    type={"removableLine"}
+                                                    type={"removableIngredient"}
                                                     valueChange={ingredientChange}
                                                     value={ingredients[id]}
                                                     array={true}
@@ -290,7 +293,7 @@ export default function Homepage(){
                                                 />
                                         ):(
                                             <RecipeTextInput
-                                                type={"removableLine"}
+                                                type={"removableIngredient"}
                                                 valueChange={ingredientChange}
                                                 value={ingredients[id]}
                                                 array={true}

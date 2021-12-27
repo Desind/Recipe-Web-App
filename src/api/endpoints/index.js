@@ -25,7 +25,8 @@ export const endpoints = {
     getRecipesWithIngredients: base + '/api/recipes-with-ingredients?ingredients=',
     newProduct: base + '/api/product',
     allProducts: base + '/api/products?',
-    deleteProduct: base + '/api/product/'
+    deleteProduct: base + '/api/product/',
+    getProduct: base + '/api/product/'
 }
 
 
