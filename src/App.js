@@ -15,6 +15,7 @@ import NewRecipe from "./pages/newRecipe";
 import RecipeDetails from "./pages/recipeDetails";
 import AdminPanel from "./pages/adminPanel";
 import EditRecipe from "./pages/editRecipe";
+import UserProfile from "./pages/userProfile";
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
                     </Route>
                     <Route exact path="/admin">
                         <AdminPanel/>
+                    </Route>
+                    <Route exact path={"/profile"}>
+                        <UserProfile/>
                     </Route>
                 </Switch>
               </ContentWrapper>

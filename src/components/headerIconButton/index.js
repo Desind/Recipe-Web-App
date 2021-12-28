@@ -5,7 +5,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import { useHistory } from "react-router-dom";
-import { useGlobalState } from "../../state"
+import { useGlobalState, setGlobalState } from "../../state"
 
 
 export default function HeaderIconButton(){
@@ -47,20 +47,23 @@ export default function HeaderIconButton(){
                             {userRole.includes("ADMIN") && <div className={styles.userInfo}>(Administrator account)</div>}
                             <Divider />
                             <MenuItem onClick={() => {
-                                handleClose()
+                                history.push("/profile");
                             }}>
                                 Profile
                             </MenuItem>
-                            <MenuItem onClick={() => {
-                                handleClose()
-                            }}>
-                                Settings
-                            </MenuItem>
                             <Divider className={styles.divider}/>
                             <MenuItem onClick={() => {
-                                handleClose()
+                                handleClose();
+                                setGlobalState("token", "");
+                                setGlobalState("refreshToken", "");
+                                setGlobalState("username", "");
+                                setGlobalState("userRole", "");
+                                setGlobalState("email", "");
+                                setGlobalState("userId", "");
+                                history.replace("/");
                             }}>
                                 Logout
+                                
                             </MenuItem>
                         </>
                         :

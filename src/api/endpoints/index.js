@@ -26,7 +26,9 @@ export const endpoints = {
     newProduct: base + '/api/product',
     allProducts: base + '/api/products?',
     deleteProduct: base + '/api/product/',
-    getProduct: base + '/api/product/'
+    getProduct: base + '/api/product/',
+    getUserProfile: base + '/api/profile',
+    uploadUserImage: base + '/api/user-image'
 }
 
 

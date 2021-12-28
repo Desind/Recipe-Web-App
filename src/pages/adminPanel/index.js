@@ -50,7 +50,7 @@ export default function AdminPanel(){
 
 
     const token = useGlobalState('token')[0];
-    const role = useGlobalState('userRole')[0];
+     const role = useGlobalState('userRole')[0];
     const email = useGlobalState('email')[0];
 
     function fetchUsers(username, roles){

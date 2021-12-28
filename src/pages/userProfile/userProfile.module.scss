@@ -1,0 +1,139 @@
+@import "../../scss/_palette.scss";
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 2.5fr 0 9fr;
+}
+.wrapperLeft {
+  width: 100%;
+  grid-column: 1;
+}
+.wrapperRight {
+  width: 100%;
+  grid-column: 3;
+}
+.tabButton{
+  font-size: 20px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: 1px solid $textSecondary;
+  border-bottom: 3px solid $textSecondary;
+  cursor: pointer;
+  &:last-child{
+    margin-bottom: 0;
+  }
+  &:hover{
+    background-color: lighten($textSecondary, 45%);
+    transition: 0.2s ease;
+  }
+}
+.tabButtonActive{
+  @extend .tabButton;
+  border-bottom: 3px solid $accentMain;
+  box-shadow: 0px 1px 12px -5px rgba(66, 68, 90, 1);
+  background-color: lighten($accentMain, 40%);
+  cursor: default;
+  &:hover{
+    background-color: lighten($accentMain, 40%);
+  }
+}
+.content{
+  border-radius: 10px;
+  box-shadow: 0px 1px 12px -5px rgba(0,0,0, 1);
+  margin-left: 30px;
+  margin-top: 25px;
+  padding: 10px 10px;
+}
+.header{
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+.favRecipesCount{
+  font-weight: bold;
+  margin-left: 5px;
+}
+.userInfoHeader{
+  color: $accentMain;
+  text-align: center;
+  font-size: 26px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.userWrapper{
+  display: flex;
+  margin-bottom: 30px;
+}
+.userInfoImage{
+  height: 250px;
+  width: 250px;
+  border-radius: 1000px;
+  box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 1);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.username{
+  margin-top: 20px;
+  font-size: 32px;
+  color: $accentMain;
+}
+.email{
+  font-size: 20px;
+  color: $textSecondary;
+  margin-top: 5px;
+}
+.registrationDate{
+  font-size: 20px;
+  margin-top: 5px;
+  color: $textSecondary;
+}
+.userRole{
+  color: $textSecondary;
+  margin-top: 20px;
+}
+.imageContainer{
+  background-color: black;
+  margin-top: 20px;
+  margin-left: 40px;
+  height: 250px;
+  width: 250px;
+  border-radius: 1000px;
+  position: relative;
+  &:not(:hover) svg{
+    color: #ffffff00;
+  }
+  &:hover svg{
+    color: black;
+    transition: ease 0.5s;
+  }
+  & :hover{
+    filter: blur(4px);
+  }
+}
+.imageBox{
+  width:250px;
+  height: 250px;
+  border-radius: 1000px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.imageIcon{
+  position: absolute;
+  width: fit-content;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: none;
+}
+.userInfoWrapper{
+  width: 100%;
+  margin-left: 60px;
+  padding-top: 30px;
+}
+.recipesWrapper{
+  margin-top: 35px;
+  margin-left: 10px;
+  margin-right: 10px;
+}

@@ -534,7 +534,7 @@ export default function NewRecipe(){
                     src={image !== null ? image : noImage}
                     alt={""}/>
                 <input
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                     onChange={e => uploadImage(e.target.files[0])}
                     ref={imageRef}
                     type="file"

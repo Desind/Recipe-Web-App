@@ -4,7 +4,11 @@ body *{
   font-family: "Roboto", sans-serif;
 }
 body{
-  background-color: $background-light;
+  //noinspection CssInvalidPropertyValue
+  overflow-y: overlay;
+}
+html{
+  background: radial-gradient(ellipse at bottom, $accentMain 800px, #030617 1400px) fixed;
 }
 
 h1{
