@@ -16,6 +16,7 @@ import RecipeDetails from "./pages/recipeDetails";
 import AdminPanel from "./pages/adminPanel";
 import EditRecipe from "./pages/editRecipe";
 import UserProfile from "./pages/userProfile";
+import RecommendedRecipes from "./pages/recommendedRecipes";
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
                     </Route>
                     <Route exact path={"/profile"}>
                         <UserProfile/>
+                    </Route>
+                    <Route exact path={"/recommended"}>
+                        <RecommendedRecipes/>
                     </Route>
                 </Switch>
               </ContentWrapper>

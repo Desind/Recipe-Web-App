@@ -6,6 +6,11 @@
   text-decoration: none;
   margin-right: 12px;
   padding: 10px 20px 8px;
+  cursor: pointer;
+  &:hover{
+    background-color: $background-light;
+  }
+  user-select: none;
 }
 
 .active{
@@ -16,4 +21,8 @@
   border-color: $accentDark;
   border-style: inset;
   box-sizing: border-box;
+  cursor: default;
+  &:hover{
+    background-color: $backggroundTranslucent;
+  }
 }

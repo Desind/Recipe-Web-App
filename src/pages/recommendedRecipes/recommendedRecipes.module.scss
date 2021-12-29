@@ -1,0 +1,42 @@
+@import "../../scss/_palette.scss";
+
+.loadingWrapper{
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p{
+    font-size: 36px;
+    color: $textPrimary;
+    font-weight: normal;
+    margin-bottom: 50px;
+    margin-top: 200px;
+  }
+}
+.recommendedRecipes{
+  padding-right: 150px;
+  padding-left: 150px;
+  .paginationWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+}
+.noRecommended{
+  margin-top: 20%;
+  display: flex;
+  align-items: center;
+  color: $accentMain;
+  flex-direction: column;
+  &Title{
+     font-size: 32px;
+     margin-bottom: 20px;
+  }
+  &Subtitle{
+    font-size: 24px;
+    color: $textSecondary;
+    margin-bottom: 20px;
+  }
+}

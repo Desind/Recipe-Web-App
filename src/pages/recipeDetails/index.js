@@ -321,7 +321,7 @@ export default function RecipeDetails(){
                     </div>
                 </div>
                 {recommendedRecipes.length > 1 && <div className={styles.recommended}>
-                    <p className={styles.blockTitle}>Recommended recipes</p>
+                    <p className={styles.blockTitle}>Similar recipes</p>
                     <div className={styles.recommendedWrapper}>
                         {recommendedRecipes.map((item,number) => {
                             if(item.id === recipe.id) return;

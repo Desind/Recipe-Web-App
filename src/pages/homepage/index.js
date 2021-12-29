@@ -91,7 +91,6 @@ export default function Homepage(){
     function fetchRecipes(){
         setLastSearch("1");
         setPaginationDisabled(true);
-        console.log("fetch", page)
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'

@@ -16,6 +16,7 @@ export default function Header(){
                 <div className={styles.menuWrapper}>
                     <HeaderNavigationButton link={"/"} label={"Browse"}/>
                     <HeaderNavigationButton link={"/new"} label={"Add new"}/>
+                    {token !== "" &&<HeaderNavigationButton link={"/recommended"} label={"Recommended"}/>}
                     {role === "ADMIN" && <HeaderNavigationButton link={"/admin"} label={"Admin panel"}/>}
                 </div>
                 <HeaderIconButton/>

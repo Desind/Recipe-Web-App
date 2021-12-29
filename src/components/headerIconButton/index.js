@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import { useHistory } from "react-router-dom";
 import { useGlobalState, setGlobalState } from "../../state"
+import {toast} from "react-toastify";
 
 
 export default function HeaderIconButton(){
@@ -61,9 +62,19 @@ export default function HeaderIconButton(){
                                 setGlobalState("email", "");
                                 setGlobalState("userId", "");
                                 history.replace("/");
+                                toast.success("Successfully logged out.", {
+                                    position: "bottom-right",
+                                    autoClose: 8000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                });
+
                             }}>
                                 Logout
-                                
+
                             </MenuItem>
                         </>
                         :
