@@ -201,6 +201,7 @@ export default function EditRecipe(){
 
         }
         var raw = JSON.stringify({
+            "id": id,
             "title": title,
             "description": description,
             "ingredients": ingredients,
@@ -209,12 +210,14 @@ export default function EditRecipe(){
             "categories": selectedCategories,
             "cuisines": selectedCuisines,
             "duration": duration,
+            "owner": recipe.owner,
             "images": img,
+            "creationDate": recipe.creationDate,
             "difficulty": parseDifficulty(difficulty)
         });
 
         var requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
@@ -222,7 +225,7 @@ export default function EditRecipe(){
 
         fetch(endpoints.editRecipe, requestOptions)
             .then(response => {
-                if(response.status === 201){
+                if(response.status === 200){
                     return response.json();
                 }else{
                     toast.error('Could not modify recipe. Try again later.', {

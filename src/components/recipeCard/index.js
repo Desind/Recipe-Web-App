@@ -55,7 +55,7 @@ export default function RecipeCard(props){
 
     useEffect(() => {
         fetchUsername(props.author);
-    },[])
+    },[props.author])
 
     return(
         <div className={styles.wrapper} onClick={() => {

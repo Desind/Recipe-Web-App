@@ -158,9 +158,9 @@ export default function AdminPanel(){
     }
 
     function scanProducts(cont = false){
+
         var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
+            method: 'GET'
         };
         let scanPage = scanProductPage;
         if(cont === false){
@@ -171,14 +171,10 @@ export default function AdminPanel(){
             scanPage++;
         }
 
-        fetch("https://www.frisco.pl/app/commerce/api/v1/offer/products/query?pageIndex="+scanPage+"&search="+scanProduct+"&pageSize=10&language=en", requestOptions)
+        fetch("https://thingproxy.freeboard.io/fetch/http://www.frisco.pl/app/commerce/api/v1/offer/products/query?pageIndex="+scanPage+"&search="+scanProduct+"&pageSize=10&language=en", requestOptions)
             .then(response => response.json())
             .then(result => {
-                if (result.products.length<10){
-                    console.log("kuniec");
-                }
                 result.products.map((item) => {
-                    console.log(...scannedProducts);
                     let newProduct = {
                         "ean": item.product.ean,
                         "name": item.product.name.en
@@ -210,7 +206,7 @@ export default function AdminPanel(){
             .then(response => {
                 if(response.status === 201){
                     toast.success("Product added successfully", {
-                        position: "bottom-right",
+                        position: "bottom-left",
                         autoClose: 8000,
                         hideProgressBar: false,
                         closeOnClick: true,
@@ -221,7 +217,7 @@ export default function AdminPanel(){
                 }else{
                     if(response.status === 401){
                         toast.info("Product already exists", {
-                            position: "bottom-right",
+                            position: "bottom-left",
                             autoClose: 8000,
                             hideProgressBar: false,
                             closeOnClick: true,
