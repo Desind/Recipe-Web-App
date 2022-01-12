@@ -8,6 +8,7 @@ import { endpoints } from "../../api/endpoints";
 import noImage from "../../assets/no-image.jpg"
 import {PhotoCamera} from "@mui/icons-material";
 import RecipeCard from "../../components/recipeCard";
+import _ from "lodash";
 
 export default function UserProfile(){
 
@@ -17,6 +18,8 @@ export default function UserProfile(){
     let [userProfile, setUserProfile] = React.useState(null);
 
     let [favouriteRecipes, setFavouriteRecipes] = React.useState([]);
+
+    let [ownedRecipes, setOwnedRecipes] = React.useState([]);
 
     const [image, setImage] = React.useState(null);
     const imageRef = useRef(null);
@@ -39,6 +42,7 @@ export default function UserProfile(){
                 console.log(result);
                 setUserProfile(result);
                 fetchFavouriteRecipes(result.favouriteRecipes);
+                fetchUserRecipes(result.id);
                 setImage(result.image);
             })
     }
@@ -121,6 +125,21 @@ export default function UserProfile(){
         })
     }
 
+    function fetchUserRecipes(id){
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(endpoints.getUserRecipes + id, requestOptions)
+            .then((response) => response.json())
+            .then((json) => {
+                setOwnedRecipes(_.reverse(json));
+            })
+    }
+
     useEffect(() => {
         if(token !== ""){
             fetchUserProfile();
@@ -145,6 +164,12 @@ export default function UserProfile(){
                         setActiveTab("recipes");
                     }}
                 >Favourite recipes {favouriteRecipes.length>0 && <span className={styles.favRecipesCount}>({favouriteRecipes.length})</span>}</div>
+                <div
+                    className={activeTab === "owned" ? styles.tabButtonActive : styles.tabButton}
+                    onClick={() => {
+                        setActiveTab("owned");
+                    }}
+                >Created recipes {ownedRecipes.length>0 && <span className={styles.favRecipesCount}>({ownedRecipes.length})</span>}</div>
 
             </div>
             <div className={styles.wrapperRight}>
@@ -182,6 +207,24 @@ export default function UserProfile(){
                 </div>}
                 {activeTab === "recipes" && <div className={styles.recipesWrapper}>
                     {favouriteRecipes.map((item, key) => {
+                        return (
+                            <RecipeCard
+                                id={item.id}
+                                title={item.title}
+                                description={item.description}
+                                cuisine={item.cuisines.toString()}
+                                categories={item.categories.toString()}
+                                difficulty={item.difficulty}
+                                image={item.images}
+                                time={item.duration}
+                                author={item.owner}
+                                creationDate={parseISOTime(item.creationDate)}
+                            />
+                        )
+                    })}
+                </div>}
+                {activeTab === "owned" && <div className={styles.recipesWrapper}>
+                    {ownedRecipes.map((item, key) => {
                         return (
                             <RecipeCard
                                 id={item.id}

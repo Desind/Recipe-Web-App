@@ -111,7 +111,7 @@ export default function RecommendedRecipes(){
                 <CircularProgress size={200} thickness={1} style={{'color': '#E69F1E'}}/>
             </div>}
             {(!loading && fetchedRecipes.length>0) && <div className={styles.recommendedRecipes}>
-                <h1>Your recommended recipes</h1>
+                <h1>Recipes recommended for you</h1>
                 {fetchedRecipes.map((item,key) => {
                     return(
                         <RecipeCard
