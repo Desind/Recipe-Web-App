@@ -7,8 +7,6 @@ import {useGlobalState} from "../../state";
 export default function Header(){
     const token = useGlobalState('token')[0];
     const role = useGlobalState('userRole')[0];
-    const email = useGlobalState('email')[0];
-
 
     return(
         <div className={styles.header}>

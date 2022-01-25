@@ -218,7 +218,7 @@ export default function UserProfile(){
                                 image={item.images}
                                 time={item.duration}
                                 author={item.owner}
-                                creationDate={parseISOTime(item.creationDate)}
+                                creationDate={item.creationDate}
                             />
                         )
                     })}
@@ -236,7 +236,7 @@ export default function UserProfile(){
                                 image={item.images}
                                 time={item.duration}
                                 author={item.owner}
-                                creationDate={parseISOTime(item.creationDate)}
+                                creationDate={item.creationDate}
                             />
                         )
                     })}

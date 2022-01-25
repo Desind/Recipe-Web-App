@@ -60,36 +60,6 @@ export default function RecommendedRecipes(){
     }
 
 
-
-
-
-    function parseISOTime(time){
-        let date = new Date(time);
-        let year = date.getFullYear();
-        let month = date.getMonth()+1;
-        let dt = date.getDate();
-        let h = date.getHours();
-        let m = date.getMinutes();
-        let s = date.getSeconds();
-        if (dt < 10) {
-            dt = '0' + dt;
-        }
-        if (month < 10) {
-            month = '0' + month;
-        }
-        if (s < 10) {
-            s = '0' + s;
-        }
-        if (m < 10) {
-            m = '0' + m;
-        }
-        if (h < 10) {
-            h = '0' + h;
-        }
-
-        return year + '-' + month + '-' + dt + " " + h + ":" + m + ":" + s;
-    }
-
     useEffect(() => {
         if (token !== "") {
             fetchUserProfile();
@@ -125,7 +95,7 @@ export default function RecommendedRecipes(){
                             image={item.images}
                             time={item.duration}
                             author={item.owner}
-                            creationDate={parseISOTime(item.creationDate)}
+                            creationDate={item.creationDate}
                         />
                     )
                 })}

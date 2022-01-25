@@ -9,8 +9,8 @@ export default function TextInput(props){
 
     return(
         <div className={styles.inputWrapper}>
-            <div className={styles.label}>{props.label}</div>
-            <input className={styles.input} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false" type={props.type}/>
+            <div className={styles.label} data-testid={"label"}>{props.label}</div>
+            <input className={styles.input} onChange={(e) => props.valueChange(e.target.value)} spellCheck="false" aria-label={props.label} type={props.type}/>
             <i className={styles.icon}>
                 {props.icon === "approve" && <img src={Approve} alt={"Approve"}/>}
                 {props.icon === "deny" && <img src={Deny} alt={"Deny"}/>}

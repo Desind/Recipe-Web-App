@@ -29,11 +29,26 @@ export default function Difficulty(props){
 
     return(
         <div className={styles.difficultyWrapper}>
-            <img className={styles.difficultyIconActive} src={cleaver} alt={""}/>
-            <img className={diffNumber > 1 ? styles.difficultyIconActive : styles.difficultyIcon} src={cleaver} alt={""}/>
-            <img className={diffNumber > 2 ? styles.difficultyIconActive : styles.difficultyIcon} src={cleaver} alt={""}/>
-            <img className={diffNumber > 3 ? styles.difficultyIconActive : styles.difficultyIcon} src={cleaver} alt={""}/>
-            <img className={diffNumber > 4 ? styles.difficultyIconActive : styles.difficultyIcon} src={cleaver} alt={""}/>
+            <img
+                className={styles.difficultyIconActive}
+                src={cleaver}
+                alt={"difficultyIconActive"}/>
+            <img
+                className={diffNumber > 1 ? styles.difficultyIconActive : styles.difficultyIcon}
+                src={cleaver}
+                alt={diffNumber > 1 ? "difficultyIconActive" : "difficultyIcon"}/>
+            <img
+                className={diffNumber > 2 ? styles.difficultyIconActive : styles.difficultyIcon}
+                src={cleaver}
+                alt={diffNumber > 2 ? "difficultyIconActive" : "difficultyIcon"}/>
+            <img
+                className={diffNumber > 3 ? styles.difficultyIconActive : styles.difficultyIcon}
+                src={cleaver}
+                alt={diffNumber > 3 ? "difficultyIconActive" : "difficultyIcon"}/>
+            <img
+                className={diffNumber > 4 ? styles.difficultyIconActive : styles.difficultyIcon}
+                src={cleaver}
+                alt={diffNumber > 4 ? "difficultyIconActive" : "difficultyIcon"}/>
         </div>
     )
 }

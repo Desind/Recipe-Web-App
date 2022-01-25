@@ -20,7 +20,7 @@ import Disabled from "../../assets/disabled.svg"
 export default function AllergenCheckbox(props){
 
     return(
-        <div className={props.disabled ? styles.wrapperDisabled : styles.wrapper} onClick={props.onClick}>
+        <div data-testid={"allergenCheckbox"} className={props.disabled ? styles.wrapperDisabled : styles.wrapper} onClick={props.onClick}>
             <div className={styles.imageWrapper}>
                 <img src={(props.allergen === "CELERY" && CELERY)
                 || (props.allergen === "EGGS" && EGGS)

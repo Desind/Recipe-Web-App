@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styles from './recipeTextInput.module.scss';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
@@ -132,40 +132,40 @@ export default function RecipeTextInput(props) {
                 }
                 {props.type === "ingredient" &&
                     (props.array === false ?
-                        <div className={styles.ingredientWrapper}>
+                        <div data-testid={"ingredient"} className={styles.ingredientWrapper}>
                             <LinkedCameraIcon fontSize={"large"} className={styles.closeIcon} onClick={() => {
                                 setOpen(true);
                             }}/>
-                            <input className={styles.lineInput} value={props.value}
+                            <input data-testid={"ingredientInput"} className={styles.lineInput} value={props.value}
                                    onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
                         </div>
                             :
-                        <div className={styles.ingredientWrapper}>
+                        <div data-testid={"ingredient"} className={styles.ingredientWrapper}>
                             <LinkedCameraIcon fontSize={"large"} className={styles.scanIcon} onClick={() => {
                                 setOpen(true);
                             }}/>
-                            <input className={styles.lineInput} value={props.value}
+                            <input data-testid={"ingredientInput"} className={styles.lineInput} value={props.value}
                                    onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
                         </div>
                     )
                 }
                 {props.type === "removableIngredient" &&
                 (props.array === false ?
-                        <div className={styles.ingredientWrapper}>
+                        <div data-testid={"ingredient"} className={styles.ingredientWrapper}>
                             <LinkedCameraIcon fontSize={"large"} className={styles.closeIcon} onClick={() => {
                                 setOpen(true);
                             }}/>
-                            <input className={styles.lineInput} value={props.value}
+                            <input data-testid={"ingredientInput"} className={styles.lineInput} value={props.value}
                                    onChange={(e) => props.valueChange(e.target.value)} spellCheck="false"/>
                             <CloseIcon fontSize={"large"} className={styles.closeIcon} onClick={props.onRemoveLine}/>
                         </div>
 
                         :
-                        <div className={styles.ingredientWrapper}>
+                        <div data-testid={"ingredient"} className={styles.ingredientWrapper}>
                             <LinkedCameraIcon fontSize={"large"} className={styles.scanIcon} onClick={() => {
                                 setOpen(true);
                             }}/>
-                            <input className={styles.lineInput} value={props.value}
+                            <input data-testid={"ingredientInput"} className={styles.lineInput} value={props.value}
                                    onChange={(e) => props.valueChange(e.target.value, props.index)} spellCheck="false"/>
                             <CloseIcon fontSize={"large"} className={styles.closeIcon} onClick={props.onRemoveLine}/>
                         </div>
@@ -179,6 +179,6 @@ export default function RecipeTextInput(props) {
 }
 RecipeTextInput.propTypes = {
     valueChange: PropTypes.func,
-    type: PropTypes.oneOf(['line', 'multiline', 'removableLine', 'removableMultiline']).isRequired,
+    type: PropTypes.oneOf(['line', 'multiline', 'removableLine', 'removableMultiline', 'ingredient', 'removableIngredient']).isRequired,
     icon: PropTypes.oneOf(['approve', 'deny', 'none'])
 }

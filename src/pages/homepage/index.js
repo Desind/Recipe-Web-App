@@ -12,7 +12,6 @@ import TextCheckbox from "../../components/textCheckbox";
 import Pagination from "@mui/material/Pagination";
 import RecipeTextInput from "../../components/recipeTextInput";
 import AddIcon from "@mui/icons-material/Add";
-import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
 
 export default function Homepage(){
@@ -39,8 +38,6 @@ export default function Homepage(){
     const [ingredients, setIngredients] = React.useState([""]);
 
     const [lastSearch, setLastSearch] = React.useState("1");
-
-    const [data, setData] = React.useState("Not Found");
 
     function ingredientChange(value, id){
         let array = [...ingredients];
@@ -104,7 +101,7 @@ export default function Homepage(){
             }).then(result => {
                 setFetchedRecipes(result.recipes);
                 setPageCount(result.pageCount);
-                console.log(result.recipes);
+                //console.log(result.recipes);
                 setPage(result.page);
                 setPaginationDisabled(false);
             }
@@ -130,33 +127,6 @@ export default function Homepage(){
                 setPage(result.page);
                 setPaginationDisabled(false);
             })
-    }
-
-    function parseISOTime(time){
-        let date = new Date(time);
-        let year = date.getFullYear();
-        let month = date.getMonth()+1;
-        let dt = date.getDate();
-        let h = date.getHours();
-        let m = date.getMinutes();
-        let s = date.getSeconds();
-        if (dt < 10) {
-            dt = '0' + dt;
-        }
-        if (month < 10) {
-            month = '0' + month;
-        }
-        if (s < 10) {
-            s = '0' + s;
-        }
-        if (m < 10) {
-            m = '0' + m;
-        }
-        if (h < 10) {
-            h = '0' + h;
-        }
-
-        return year + '-' + month + '-' + dt + " " + h + ":" + m + ":" + s;
     }
 
     useEffect(() => {
@@ -193,7 +163,7 @@ export default function Homepage(){
                             <div className={styles.allergenWrapper}>
                                 {allAllergens.map((item, id) => {
                                     return(
-                                        <AllergenCheckbox disabled={disabledAllergens.includes(item)} allergen={item} onClick={() => {
+                                        <AllergenCheckbox key={id} disabled={disabledAllergens.includes(item)} allergen={item} onClick={() => {
                                             if(!disabledAllergens.includes(item)){
                                                 setDisabledAllergens([...disabledAllergens,item]);
                                             }else{
@@ -216,7 +186,7 @@ export default function Homepage(){
                             <div className={styles.buttonWrapper}>
                                 {allCuisines.map((item, id) => {
                                     return(
-                                        <TextCheckbox selected={selectedCuisines.includes(item)} text={item} onClick={() => {
+                                        <TextCheckbox key={id} selected={selectedCuisines.includes(item)} text={item} onClick={() => {
                                             if(!selectedCuisines.includes(item)){
                                                 setSelectedCuisines([...selectedCuisines,item]);
                                             }else{
@@ -239,7 +209,7 @@ export default function Homepage(){
                             <div className={styles.buttonWrapper}>
                                 {allCategories.map((item, id) => {
                                     return(
-                                        <TextCheckbox selected={selectedCategories.includes(item)} text={item} onClick={() => {
+                                        <TextCheckbox key={id} selected={selectedCategories.includes(item)} text={item} onClick={() => {
                                             if(!selectedCategories.includes(item)){
                                                 setSelectedCategories([...selectedCategories,item]);
                                             }else{
@@ -272,6 +242,7 @@ export default function Homepage(){
                                         (
                                             ingredients.length < 2 ?
                                                 <RecipeTextInput
+                                                    key={"id"}
                                                     type={"ingredient"}
                                                     value={ingredients[id]}
                                                     valueChange={ingredientChange}
@@ -279,6 +250,7 @@ export default function Homepage(){
                                                     index={id}
                                                 /> :
                                                 <RecipeTextInput
+                                                    key={"id"}
                                                     type={"removableIngredient"}
                                                     valueChange={ingredientChange}
                                                     value={ingredients[id]}
@@ -308,13 +280,17 @@ export default function Homepage(){
 
                                 )
                             })}
-                            <div className={styles.addButtonWrapper}>
+                            <div
+                                className={styles.addButtonWrapper}
+                                data-testid={"addNewProduct"}
+                                onClick={() => {
+                                    setIngredients([...ingredients,""])
+                                }}
+                            >
                                 <AddIcon
                                     className={styles.addButton}
                                     fontSize={"large"}
-                                    onClick={() => {
-                                        setIngredients([...ingredients,""])
-                                    }}/>
+                                />
                             </div>
                             <button onClick={() => {fetchRecipesWithIngredients()}} className={styles.searchButton2}>
                                 <p>Ingredients search</p>
@@ -327,6 +303,7 @@ export default function Homepage(){
                 {fetchedRecipes.map((item,id) =>{
                     return(
                         <RecipeCard
+                            key={id}
                             id={item.id}
                             title={item.title}
                             description={item.description}
@@ -336,7 +313,7 @@ export default function Homepage(){
                             image={item.images}
                             time={item.duration}
                             author={item.owner}
-                            creationDate={parseISOTime(item.creationDate)}
+                            creationDate={item.creationDate}
                         />
                     )
                 })}

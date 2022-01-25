@@ -9,9 +9,15 @@ export default function HeaderNavigationButton(props){
     let history = useHistory();
     const location = useLocation();
     return(
-        <div className={location.pathname !== props.link ? styles.link : styles.active} onClick={() => {
-            history.push(props.link);
-        }}>{props.label}</div>
+        <div
+            className={location.pathname !== props.link ? styles.link : styles.active}
+            onClick={() => {
+                history.push(props.link);
+            }}
+            aria-label={"navigationButton"}
+        >
+            {props.label}
+        </div>
     )
 }
 
