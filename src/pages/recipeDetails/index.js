@@ -274,10 +274,10 @@ export default function RecipeDetails(){
                         }
                     </div>
                 </div>
-                <div className={styles.ownerPanel}>
-                    {userId === recipe.owner && <div onClick={() => {history.push("/edit/"+recipe.id)}}>Edit</div>}
-                    {(userRole === "ADMIN" || userId === recipe.owner) && <div onClick={() => {setDialogOpen(true)}}>Delete</div>}
-                </div>
+    <div className={styles.ownerPanel}>
+        {userId === recipe.owner && <div onClick={() => {history.push("/edit/"+recipe.id)}}>Edit</div>}
+        {(userRole === "ADMIN" || userId === recipe.owner) && <div onClick={() => {setDialogOpen(true)}}>Delete</div>}
+    </div>
                 <div className={styles.banner}>
                     <img src={recipe.images !== null ? recipe.images : noImage} alt={recipe.title}/>
                     <div className={styles.paper}>

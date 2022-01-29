@@ -263,7 +263,7 @@ export default function EditRecipe(){
         fetch(endpoints.getRecipe + id, requestOptions)
             .then(response => response.json())
             .then(result => {
-                if(result.owner != userId){
+                if(result.owner !== userId){
                     history.replace("/");
                     return;
                 }

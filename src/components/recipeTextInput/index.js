@@ -11,8 +11,6 @@ import {toast} from "react-toastify";
 
 export default function RecipeTextInput(props) {
 
-    const [data, setData] = React.useState(null);
-
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
 
@@ -50,26 +48,24 @@ export default function RecipeTextInput(props) {
 
     return (
         <>
-            <Modal
-                open={open}
-                onClose={handleClose}
-            >
-                <div className={styles.modalContainer}>
-                    <h2>Scan product</h2>
-                    <BarcodeScannerComponent
-                        width={640}
-                        height={480}
-                        onUpdate={(err, result) => {
-                            if(result){
-                                setData(result.getText());
-                                setOpen(false);
-                                fetchProduct(result.getText());
-                            }
-                            else setData(null);
-                        }}
-                    />
-                </div>
-            </Modal>
+    <Modal
+        open={open}
+        onClose={handleClose}
+    >
+    <div className={styles.modalContainer}>
+        <h2>Scan product</h2>
+        <BarcodeScannerComponent
+            width={640}
+            height={480}
+            onUpdate={(err, result) => {
+                if(result){
+                    setOpen(false);
+                    fetchProduct(result.getText());
+                }
+            }}
+        />
+    </div>
+    </Modal>
             <div className={props.fullWidth === true ? (styles.inputWrapperWide) : styles.inputWrapper}>
                 {props.type === "line" &&
                     (props.array === false ?

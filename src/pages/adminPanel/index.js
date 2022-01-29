@@ -349,7 +349,7 @@ export default function AdminPanel(){
                             setActiveTab("products");
                             fetchProducts();
                         }}
-                        >All products</div>
+                        >Available products</div>
                 </div>
                 <div className={styles.wrapperRight}>
                     {activeTab === "users" &&

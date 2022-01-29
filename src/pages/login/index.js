@@ -10,8 +10,8 @@ import { endpoints } from "../../api/endpoints";
 
 export default function Login(){
 
-    let [login, setLogin] = React.useState("zaran1998@gmail.com");
-    let [password, setPassword] = React.useState("testpass");
+    let [login, setLogin] = React.useState("");
+    let [password, setPassword] = React.useState("");
 
     let history = useHistory();
 
