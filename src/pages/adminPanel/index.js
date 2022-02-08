@@ -102,6 +102,8 @@ export default function AdminPanel(){
         fetchUsers(queryInput,queryRoles);
     }
 
+
+
     async function deleteUser(id){
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
@@ -158,7 +160,6 @@ export default function AdminPanel(){
     }
 
     function scanProducts(cont = false){
-
         var requestOptions = {
             method: 'GET'
         };
@@ -171,7 +172,9 @@ export default function AdminPanel(){
             scanPage++;
         }
 
-        fetch("https://thingproxy.freeboard.io/fetch/http://www.frisco.pl/app/commerce/api/v1/offer/products/query?pageIndex="+scanPage+"&search="+scanProduct+"&pageSize=10&language=en", requestOptions)
+        fetch("https://thingproxy.freeboard.io/fetch/" +
+            "http://www.frisco.pl/app/commerce/api/v1/offer/products/query?pageIndex="
+            +scanPage+"&search="+scanProduct+"&pageSize=10&language=en", requestOptions)
             .then(response => response.json())
             .then(result => {
                 result.products.map((item) => {

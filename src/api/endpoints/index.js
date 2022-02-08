@@ -1,4 +1,5 @@
-const base = 'https://just-cook-auth-server.herokuapp.com';
+//const base = 'https://just-cook-auth-server.herokuapp.com';
+const base = 'http://localhost:8080';
 
 export const endpoints = {
     register: base + '/api/user',
