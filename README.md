@@ -25,18 +25,18 @@ To start project type these commands in parent directory
 # Demo
 
 #### Browsing recipes
-![](https://i.imgur.com/aBujPZn.gif)
+![browsing recipes](https://i.imgur.com/aBujPZn.gif)
 
 #### Scanning barcode of a product
-![](https://i.imgur.com/uesUzsO.gif)
+![scanning product](https://i.imgur.com/uesUzsO.gif)
 
 #### Show recipe details
-![](https://i.imgur.com/RStJIFD.gif)
+![recipe details](https://i.imgur.com/RStJIFD.gif)
 
 #### User profile
-![](https://i.imgur.com/7PgBCE0.gif)
+![user profile](https://i.imgur.com/7PgBCE0.gif)
 
 #### Creating new recipe
-![](https://i.imgur.com/QmjpkJk.gif)
+![new recipe](https://i.imgur.com/QmjpkJk.gif)
 
 
