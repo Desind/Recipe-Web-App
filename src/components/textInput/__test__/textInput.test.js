@@ -23,6 +23,7 @@ test('element has correct label', () => {
     const labelElement = screen.getByTestId("label");
     expect(labelElement).toHaveTextContent("Input");
 });
+
 test('should be able to type into input', () => {
     render(<TextInput label={"Input"} type={"text"} valueChange={mockedValueChange}/>)
     const inputElement = screen.getByLabelText("Input");
