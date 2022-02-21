@@ -1,7 +1,7 @@
 ## About
 
 This is an app for managing and sharing recipes with other people with some other cool functionalities.
-
+In this app spring boot + mongoDB server is used. https://github.com/Desind/JustCook-Auth-Server
 #### Requirements:
 Node.js:
 https://nodejs.org/en/
