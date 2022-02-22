@@ -24,10 +24,10 @@ To start project type these commands in parent directory
 
 #Demo
 #####Browsing recipes
-![](https://i.imgur.com/aBujPZn.gif)
+![](./demo/browse.gif)
 
 #####Scanning barcode of a product
-![](https://i.imgur.com/uesUzsO.gif)
+![](./demo/scan.gif)
 
 #####Show recipe details
 ![](https://i.imgur.com/RStJIFD.gif)
