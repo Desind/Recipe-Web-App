@@ -22,20 +22,20 @@ To start project type these commands in parent directory
 * `yarn start`
 
 
-#Demo
-#####Browsing recipes
+# Demo
+#####B rowsing recipes
 ![](./demo/browse.gif)
 
-#####Scanning barcode of a product
+##### Scanning barcode of a product
 ![](./demo/scan.gif)
 
-#####Show recipe details
-![](https://i.imgur.com/RStJIFD.gif)
+##### Show recipe details
+![](./demo/details.gif)
 
-#####User profile
+##### User profile
 ![](https://i.imgur.com/7PgBCE0.gif)
 
-#####Creating new recipe
+##### Creating new recipe
 ![](https://i.imgur.com/QmjpkJk.gif)
 
 
